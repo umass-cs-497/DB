@@ -25,12 +25,12 @@ Course Document:
 -        Instructor (reference to instructor name and unique id)
 -        Roster (reference to student name and unique id)
 -        Lecture
-o   Media
-§  White Board Images
-§  Screen
-§  Video
-§  Open to Public (Yes or No)
-§  Comments
+-		 Media
+-  		 White Board Images
+-  		 Screen
+-  		 Video
+-  		 Open to Public (Yes or No)
+-	  	Comments
 ·   	User
 ·   	Username
 ·   	Posted Date
