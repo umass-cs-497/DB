@@ -12,7 +12,7 @@ User Document:
 -        Profile (default image / or upload image)
 -        Role (student, instructor, admin)
 -        Bookmarks (links to lecture time, and lecture id)
--------------------------------------------------------------
+
 Course Document:
  
 -        Object Id
@@ -31,7 +31,7 @@ Course Document:
 -  		 Video
 -  		 Open to Public (Yes or No)
 -	  	Comments
-·   	User
-·   	Username
-·   	Posted Date
-·   	Content (each component had replies list)
+	-   	User
+	-   	Username
+	-   	Posted Date
+	-   	Content (each component had replies list)
