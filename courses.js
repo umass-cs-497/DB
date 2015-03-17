@@ -1,27 +1,40 @@
-var mongoose = require('mongoose');//using mongoose
-//connection to local machine
-mongoose.connect('mongodb://localhost/lecture');
+var mongoose = require('mongoose');
 
-//connection to the db
+var Schema = mongoose.Schema;
+
+mongoose.connect('mongodb://freddy:freddy@ds063870.mongolab.com:63870/learn_u');
+
+// database connection
 var db = mongoose.connection;
+
 db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function(callback){
-	console.log("connected");
-});
+db.once('open', function(callback) {
+  // Schema definition for courses
+  var courseSchema = new Schema({
+    courseNumber: String,
+    courseSection: String,
+    department: String,
+    description: String,
+    permission: Number,
+    instructors: [{
+      type: String,
+      unique: true
+    }],
+    lectures: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Lecture'
+    }],
+    students: [{
+      type: Schema.Types.ObjectId,
+      ref: 'User'
+    }],
+    semester: String,
+    title: String
+  });
 
-//course schema
-var courseSchema = new mongoose.Schema({
-  ObjectId: String,
-  title: String,
-  department: String,
-  courseNumber: String,	
-  description: String,
-  courseSection: String,
-  semester: String,
-  instructor: { type: String, unique: true},
-  roaster: {type: String, unique: true},
-  lecture: String	
+  var User = mongoose.model('User');
+  var Lecture = mongoose.model('Lecture');
+  var Course = mongoose.model('Course', courseSchema);
 
-
-
+  exports.Course = Course;
 });

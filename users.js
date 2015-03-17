@@ -1,32 +1,40 @@
-var mongoose = require('mongoose');//using mongoose to connect
-//connects to local machine.
-mongoose.connect('mongodb://localhost/lecture');
+var mongoose = require('mongoose');
 
-//database connectionn 
+var Schema = mongoose.Schema;
+
+mongoose.connect('mongodb://freddy:freddy@ds063870.mongolab.com:63870/learn_u');
+
+// database connection
 var db = mongoose.connection;
+
 db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function(callback){
-	console.log("connected");
-});
+db.once('open', function(callback) {
+  // Schema definition for users
+  var userSchema = new Schema({
+    email: {type: String, unique: true, lowercase: true},
+    password: String,
+    username: String,
+    firstName: String,
+    lastName: String,
+    role: String,
 
-var userSchema = new mongoose.Schema({
-  email: { type: String, unique: true, lowercase: true },
-  password: String,
+    courses: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Course'
+    }],
+    notifications: [{
+      title: String,
+      url: String,
+      date: Date
+    }],
+    bookmarks: [{
+      title: String,
+      url: String
+    }]
+  });
 
-  firstName: String,
-  lastName: String,
-  role: String,	
-  profilePic: String,
+  var Course = mongoose.model('Course');
+  var User = mongoose.model('User', userSchema);
 
-  course: {
-    title: { type: String },
-    department: { type: String },
-    section: { type: String },
-    term: { type: String },
-     year: {type: String}
-  },
-
-
-
-
+  exports.User = User;
 });
