@@ -14,8 +14,10 @@ db.once('open', function(callback) {
     email: {type: String, unique: true, lowercase: true},
     password: String,
     username: String,
-    firstName: String,
-    lastName: String,
+    name: {
+      first: String,
+      last: String
+    },
     role: String,
 
     courses: [{
@@ -32,6 +34,62 @@ db.once('open', function(callback) {
       url: String
     }]
   });
+
+  userSchema.statics.getBookmarksById = function(id, callback) {
+    this.findById(id, function(err, user) {
+      if (err) {
+        callback(err);
+      }
+      else if (!user) {
+        callback("userID does not exist.");
+      }
+      else {
+        callback(undefined, user.bookmarks);
+      }
+    });
+  };
+  userSchema.statics.getCoursesById = function(id, callback) {
+    this.findById(id, function(err, user) {
+      if (err) {
+        callback(err, undefined);
+        return;
+      }
+      else if (!user) {
+        callback("userID does not exist.", undefined);
+        return;
+      }
+      else {
+        callback(undefined, user.courses);
+      }
+    });
+
+  };
+  userSchema.statics.getNotificationsById = function(id, callback) {
+    this.findById(id, function(err, user) {
+      if (err) {
+        callback(err);
+      }
+      else if (!user) {
+        callback("userID does not exist.");
+      }
+      else {
+        callback(undefined, user.notifications);
+      }
+    });
+  };
+  userSchema.statics.getUserRoleById = function(id, callback) {
+    this.findById(id, function(err, user) {
+      if (err) {
+        callback(err);
+      }
+      else if (!user) {
+        callback('userID does not exist.');
+      }
+      else {
+        callback(undefined, user.role);
+      }
+    })
+  };
 
   var Course = mongoose.model('Course');
   var User = mongoose.model('User', userSchema);

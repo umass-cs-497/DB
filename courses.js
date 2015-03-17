@@ -24,10 +24,11 @@ db.once('open', function(callback) {
       type: Schema.Types.ObjectId,
       ref: 'Lecture'
     }],
-    students: [{
+    registeredUsers: [{
       type: Schema.Types.ObjectId,
       ref: 'User'
     }],
+    emails: [String],
     semester: String,
     title: String
   });
