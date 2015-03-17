@@ -17,10 +17,12 @@ var courseSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Lecture'
   }],
+  // list of registered students/instructors.
   registeredUsers: [{
     type: Schema.Types.ObjectId,
     ref: 'User'
   }],
+  // list of all eligible emails to view the course's material.
   emails: [String],
   semester: String,
   title: String

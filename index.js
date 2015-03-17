@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://freddy:freddy@ds063870.mongolab.com:63870/learn_u');
+mongoose.connect('mongodb://freddy:freddy@ds043170.mongolab.com:43170/learn_u');
 setTimeout(function() {
   process.exit();
 }, 1000);

@@ -28,8 +28,8 @@ var userSchema = new Schema({
   }]
 });
 
-userSchema.statics.getBookmarksById = function(id, callback) {
-  this.findById(id, function(err, user) {
+userSchema.statics.getBookmarksByEmail = function(email, callback) {
+  this.findOne({email: email}, function(err, user) {
     if (err) {
       callback(err);
     }
@@ -41,30 +41,23 @@ userSchema.statics.getBookmarksById = function(id, callback) {
     }
   });
 };
-userSchema.statics.getCoursesById = function(id, callback) {
-  this.findById(id, function(err, user) {
-    if (err) {
-      callback(err, undefined);
-      return;
-    }
-    else if (!user) {
-      callback("userID does not exist.", undefined);
-      return;
-    }
-    else {
-      user.populate('courses', function (err, user) {
-        var courses = [];
-        for (i in user.courses) {
-          courses.push(user.course);
+userSchema.statics.getCoursesByEmail = function(email, callback) {
+  this.findOne(email)
+      .populate('courses')
+      .exec(function(err, user) {
+        if (err) {
+          callback(err);
         }
-        callback(undefined, courses);
+        else if (!user) {
+          callback("userID does not exist");
+        }
+        else {
+          callback(undefined, user.courses);
+        }
       })
-    }
-  });
-
 };
-userSchema.statics.getNotificationsById = function(id, callback) {
-  this.findById(id, function(err, user) {
+userSchema.statics.getNotificationsByEmail = function(email, callback) {
+  this.findOne({email: email}, function(err, user) {
     if (err) {
       callback(err);
     }
@@ -76,8 +69,8 @@ userSchema.statics.getNotificationsById = function(id, callback) {
     }
   });
 };
-userSchema.statics.getUserRoleById = function(id, callback) {
-  this.findById(id, function(err, user) {
+userSchema.statics.getUserRoleByEmail = function(email, callback) {
+  this.findOne({email: email}, function(err, user) {
     if (err) {
       callback(err);
     }
