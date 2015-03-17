@@ -8,7 +8,7 @@ mongoose.connect('mongodb://freddy:freddy@ds063870.mongolab.com:63870/learn_u');
 var db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function(callback) {
+db.once('open', function(cb) {
   // Schema definition for users
   var userSchema = new Schema({
     email: {type: String, unique: true, lowercase: true},
