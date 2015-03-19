@@ -73,8 +73,6 @@ courseSchema.statics.getAllUserEmailsById = function(id, callback) {
   });
 };
 
-var User = require('./users.js').User;
-var Lecture = require('./lectures.js').Lecture;
 var Course = mongoose.model('Course', courseSchema);
 
 exports.Course = Course;

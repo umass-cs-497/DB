@@ -29,10 +29,36 @@ var userSchema = new Schema({
 });
 
 /*
-  Useful methods to access the user database.
-  For each method's invocation, 'callback' should in the form function(error, data).
+  Useful methods to access the User database.
+  For getter methods, callback should in the form function(error, returned_data).
+  For setter methods, callback should in the form function(error, number_of_docs_affected, raw_mongo_response).
  */
 
+/*
+  Method to add a bookmark to the user account with given email.
+ */
+userSchema.statics.addBookmarkByEmail = function(email, newBookmark, callback) {
+  this.update(
+      {email: email},
+      {$push: {bookmarks: newBookmark}},
+      callback
+  );
+};
+
+/*
+  Method to add a notification to the user account with given email.
+ */
+userSchema.statics.addNotificationByEmail = function(email, newNotification, callback) {
+  this.update(
+      {email: email},
+      {$push: {notifications: newNotification}},
+      callback
+  );
+};
+
+/*
+  Method to create a user with the given email, password, username and role.
+ */
 userSchema.statics.createUser = function(email, password, username, role, callback) {
   this.findOne({email: email}, function(err, user) {
     if (err)
@@ -52,6 +78,10 @@ userSchema.statics.createUser = function(email, password, username, role, callba
     }
   });
 };
+
+/*
+  Method to get a user's bookmarks by user's email.
+ */
 userSchema.statics.getBookmarksByEmail = function(email, callback) {
   this.findOne({email: email}, function(err, user) {
     if (err) {
@@ -65,6 +95,10 @@ userSchema.statics.getBookmarksByEmail = function(email, callback) {
     }
   });
 };
+
+/*
+  Method to get a user's registered courses by user's email.
+ */
 userSchema.statics.getCoursesByEmail = function(email, callback) {
   this.findOne(email)
       .populate('courses')
@@ -80,6 +114,10 @@ userSchema.statics.getCoursesByEmail = function(email, callback) {
         }
       });
 };
+
+/*
+  Method to get user's notifications by user's email.
+ */
 userSchema.statics.getNotificationsByEmail = function(email, callback) {
   this.findOne({email: email}, function(err, user) {
     if (err) {
@@ -93,6 +131,10 @@ userSchema.statics.getNotificationsByEmail = function(email, callback) {
     }
   });
 };
+
+/*
+  Method to get user's role (student, instructor,...) by user's email.
+ */
 userSchema.statics.getUserRoleByEmail = function(email, callback) {
   this.findOne({email: email}, function(err, user) {
     if (err) {
@@ -106,6 +148,10 @@ userSchema.statics.getUserRoleByEmail = function(email, callback) {
     }
   });
 };
+
+/*
+  Method to get the whole user's document in the database by email.
+ */
 userSchema.statics.getUserById = function(id, callback) {
   this.findById(id, function(err, user) {
     if (err)
@@ -119,7 +165,28 @@ userSchema.statics.getUserById = function(id, callback) {
   });
 };
 
-var Course = require('./courses.js').Course;
+/*
+  Method to change user first and last name.
+ */
+userSchema.statics.setNameByEmail = function(email, firstName, lastName, callback) {
+  this.update(
+      {email: email},
+      {$set: {name : {first: firstName, last: lastName}}},
+      callback
+  );
+};
+
+/*
+  Method to update username.
+ */
+userSchema.statics.setUsernameByEmail = function(email, newUsername, callback) {
+  this.update(
+      {email: email},
+      {$set: {username : newUsername}},
+      callback
+  );
+};
+
 var User = mongoose.model('User', userSchema);
 
 exports.User = User;

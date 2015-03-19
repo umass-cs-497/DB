@@ -1,5 +1,5 @@
 {
-  "name": "application-name",
+  "name": "LearnU_Database",
   "version": "0.0.1",
   "dependencies": {
     "mongoose": "^3.8.25"

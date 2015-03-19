@@ -20,20 +20,14 @@ var lectureSchema = new Schema({
   // links to lecture computer screen images,
   screenImages: [String],
   comments: [{
-    author: String,
-    content: String,
-    date: Date,
-    replies: [{
-      author: String,
-      content: String,
-      date: Date
-    }]
+    type: Schema.Types.ObjectId,
+    ref: 'Comment'
   }]
 });
 
 /*
- Methods to work with Course database.
- callback should be in the form function (err, data).
+ Methods to work with Lecture database.
+ For getter methods, callback should be in the form function(err, data).
  */
 
 lectureSchema.statics.getLectureById = function(id, callback) {
@@ -49,8 +43,19 @@ lectureSchema.statics.getLectureById = function(id, callback) {
     }
   });
 };
+lectureSchema.statics.getCommentsById = function(id, callback) {
+  this.findById(id)
+      .populate('comments')
+      .exec(function (err, lecture) {
+        if (err)
+          callback(err);
+        else if (!lecture)
+          callback("lectureID does not exist.");
+        else
+          callback(undefined, lecture.comments);
+      });
+};
 
-var Course = require('./courses.js').Course;
 var Lecture = mongoose.model('Lecture', lectureSchema);
 
 exports.Lecture = Lecture;
