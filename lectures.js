@@ -7,7 +7,7 @@ var Schema = mongoose.Schema;
 
 // Schema definition for lectures
 var lectureSchema = new Schema({
-  // reference to the course that this lecture belongs to, elements should be ObjectIds in Course collection.
+  // reference to the course that this lecture belongs to, should be an ObjectIds in Course collection.
   course: {
     type: Schema.Types.ObjectId,
     ref: 'Course'
@@ -26,9 +26,22 @@ var lectureSchema = new Schema({
 });
 
 /*
- Methods to work with Lecture database.
- For getter methods, callback should be in the form function(err, data).
+  Methods to work with Lecture database.
+  For getter methods, callback should be in the form function(err, data).
  */
+
+lectureSchema.statics.getCommentsById = function(id, callback) {
+  this.findById(id)
+      .populate('comments')
+      .exec(function (err, lecture) {
+        if (err)
+          callback(err);
+        else if (!lecture)
+          callback("lectureID does not exist.");
+        else
+          callback(undefined, lecture.comments);
+      });
+};
 
 lectureSchema.statics.getLectureById = function(id, callback) {
   this.findById(id, function(err, lecture) {
@@ -42,18 +55,6 @@ lectureSchema.statics.getLectureById = function(id, callback) {
       callback(undefined, lecture);
     }
   });
-};
-lectureSchema.statics.getCommentsById = function(id, callback) {
-  this.findById(id)
-      .populate('comments')
-      .exec(function (err, lecture) {
-        if (err)
-          callback(err);
-        else if (!lecture)
-          callback("lectureID does not exist.");
-        else
-          callback(undefined, lecture.comments);
-      });
 };
 
 var Lecture = mongoose.model('Lecture', lectureSchema);
