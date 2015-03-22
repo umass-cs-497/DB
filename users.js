@@ -150,7 +150,7 @@ userSchema.statics.getUserRoleByEmail = function(email, callback) {
 };
 
 /*
-  Method to get the whole user's document in the database by email.
+  Method to get the whole user's document in the database by objectId.
  */
 userSchema.statics.getUserById = function(id, callback) {
   this.findById(id, function(err, user) {
