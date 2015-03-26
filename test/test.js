@@ -5,16 +5,18 @@ var assert = require('assert');
 describe('Testing User collection:', function(){
   var currentUser = null;
 
-  beforeEach(function(done){
+  before(function(done){
     db_api.users.createUser('test@test.com', 'password','username','role', function(err, doc){
       assert.equal(err, null);
+      assert.notEqual(doc, null);
       currentUser = doc;
       done();
     });
   });
-  afterEach(function(done) {
+  after(function(done) {
     db_api.users.deleteUserByEmail('test@test.com', function(err, count) {
       assert.equal(err, null);
+      assert.notEqual(count, 0);
       count.should.eql(1);
       done();
     })
@@ -23,6 +25,7 @@ describe('Testing User collection:', function(){
   it('registers a new user with email: test2@test.com', function(done){
     db_api.users.createUser('test2@test.com', 'password','username','role', function(err, doc){
       assert.equal(err, null);
+      assert.notEqual(doc, null);
       doc.email.should.eql('test2@test.com');
       done();
     });
@@ -31,9 +34,10 @@ describe('Testing User collection:', function(){
   it('deletes a user with email: test2@test.com', function(done) {
     db_api.users.deleteUserByEmail('test2@test.com', function(err, count) {
       assert.equal(err, null);
+      assert.notEqual(count, null);
       count.should.eql(1);
+      done();
     });
-    done();
   });
 
   // it('fetches user by email', function(done){
