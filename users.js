@@ -187,6 +187,7 @@ userSchema.statics.setUsernameByEmail = function(email, newUsername, callback) {
   );
 };
 
+
 var User = mongoose.model('User', userSchema);
 
 exports.User = User;
