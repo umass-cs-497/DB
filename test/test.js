@@ -137,16 +137,16 @@ describe('Testing User collection:', function(){
       done();
     });
   });  
-
-  // it('retrieves course by Email', function(done) {
-  //   db_api.users.getBookmarksByEmail('test@test.com', function(err, bookmark) {
-  //     assert.equal(err, null);
-  //     assert.notEqual(bookmark, null);
-  //     bookmark[0].title.should.eql('title');
-  //     bookmark[0].url.should.eql('url');  
-  //     done();
-  //   });
-  // });  
+  /*
+   * Test whether the user returned is correct.
+   */
+  it('retrieves user by ID: ID', function(done) {
+    db_api.users.getUserById('id', function(id) {
+      assert.notEqual(id, null);
+      id.should.not.eql('userID does not exist');
+      done();
+    });
+  });  
 });
 
 /*
