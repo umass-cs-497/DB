@@ -73,9 +73,7 @@ userSchema.statics.createUser = function(email, password, username, role, callba
         password: password,
         username: username,
         role: role
-      }, function(err, newUser) {
-        callback(err, newUser);
-      })
+      }, callback);
     }
   });
 };
@@ -95,6 +93,18 @@ userSchema.statics.deleteUserByEmail = function(email, callback) {
   });
 };
 
+/*
+  Method to drop the whole user collection
+ */
+userSchema.statics.dropUserDatabase = function() {
+  this.remove({}, function(err) {
+    if (err) {
+      console.log(err);
+    }
+    else
+      console.log("user database dropped");
+  });
+};
 /*
   Method to get a user's bookmarks by user's email.
  */

@@ -33,7 +33,28 @@ var courseSchema = new Schema({
   Methods to work with Course database.
   callback should be in the form function (err, data).
  */
-
+courseSchema.statics.createCourse = function(semester, department, courseNumber, callback) {
+  var courseModel = this;
+  courseModel.find({
+    semester: semester,
+    department: department,
+    courseNumber: courseNumber
+  }, function(err, course) {
+    if (err) {
+      callback(err);
+    }
+    else if (course) {
+      callback(semester + " " + department + " " + courseNumber + " already exists.");
+    }
+    else {
+      courseModel.create({
+        courseNumber: courseNumber,
+        department: department,
+        semester: semester
+      }, callback);
+    }
+  })
+};
 courseSchema.statics.getCourseById = function(id, callback) {
   this.findById(id, function(err, course) {
     if (err) {
