@@ -1,25 +1,39 @@
-var mongoose = require('mongoose');
-var User = require('../index.js').users;
+var db_api = require('../index.js');
 var should = require('chai').should();
+var assert = require('assert');
 
-describe('createUser', function(){
+describe('Testing User collection:', function(){
   var currentUser = null;
 
   beforeEach(function(done){
-    User.createUser('test@test.com', 'password','username','role', function(err, doc){
+    db_api.users.createUser('test@test.com', 'password','username','role', function(err, doc){
+      assert.equal(err, null);
       currentUser = doc;
       done();
     });
   });
+  afterEach(function(done) {
+    db_api.users.deleteUserByEmail('test@test.com', function(err, count) {
+      assert.equal(err, null);
+      count.should.eql(1);
+      done();
+    })
+  });
 
-
- 
-
-  it('registers a new user', function(done){
-    User.createUser('test2@test.com', 'password','username2','role2', function(err, doc){
+  it('registers a new user with email: test2@test.com', function(done){
+    db_api.users.createUser('test2@test.com', 'password','username','role', function(err, doc){
+      assert.equal(err, null);
       doc.email.should.eql('test2@test.com');
       done();
     });
+  });
+
+  it('deletes a user with email: test2@test.com', function(done) {
+    db_api.users.deleteUserByEmail('test2@test.com', function(err, count) {
+      assert.equal(err, null);
+      count.should.eql(1);
+    });
+    done();
   });
 
   // it('fetches user by email', function(done){
