@@ -6,7 +6,7 @@ var Course = require('./courses.js').Course;
 var Lecture = require('./lectures.js').Lecture;
 
 module.exports = {
-  user: User,
-  course: Course,
-  lecture: Lecture
+  users: User,
+  courses: Course,
+  lectures: Lecture
 };

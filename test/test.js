@@ -1,15 +1,10 @@
 var mongoose = require('mongoose');
-var User = require('../users');
+var User = require('../index.js').users;
 var should = require('chai').should();
-
-mongoose.connect('mongodb://freddy:freddy@ds043170.mongolab.com:43170/learn_u');
-
-
 
 describe('createUser', function(){
   var currentUser = null;
 
-console.log(User);
   beforeEach(function(done){
     User.createUser('test@test.com', 'password','username','role', function(e,doc){
       currentUser = doc;
