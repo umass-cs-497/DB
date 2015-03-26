@@ -33,6 +33,10 @@ var courseSchema = new Schema({
   Methods to work with Course database.
   callback should be in the form function (err, data).
  */
+
+/*
+  Method to create a course given basic info: semester, department (e.g, CMPSCI), course number(e.g, 497S).
+ */
 courseSchema.statics.createCourse = function(semester, department, courseNumber, callback) {
   var courseModel = this;
   courseModel.find({
@@ -55,6 +59,10 @@ courseSchema.statics.createCourse = function(semester, department, courseNumber,
     }
   })
 };
+
+/*
+  Method to get course by courseId.
+ */
 courseSchema.statics.getCourseById = function(id, callback) {
   this.findById(id, function(err, course) {
     if (err) {
@@ -68,6 +76,10 @@ courseSchema.statics.getCourseById = function(id, callback) {
     }
   });
 };
+
+/*
+  Method to get all registered accounts by courseId.
+ */
 courseSchema.statics.getRegisteredUsersById = function(id, callback) {
   this.findById(id)
       .populate('registeredUsers')
@@ -80,6 +92,10 @@ courseSchema.statics.getRegisteredUsersById = function(id, callback) {
           callback(undefined, course.registeredUsers);
       })
 };
+
+/*
+  Method to get all eligible user emails by courseId.
+ */
 courseSchema.statics.getAllUserEmailsById = function(id, callback) {
   this.findById(id, function(err, course) {
     if (err) {

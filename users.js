@@ -105,6 +105,7 @@ userSchema.statics.dropUserDatabase = function() {
       console.log("user database dropped");
   });
 };
+
 /*
   Method to get a user's bookmarks by user's email.
  */
