@@ -73,9 +73,7 @@ userSchema.statics.createUser = function(email, password, username, role, callba
         password: password,
         username: username,
         role: role
-      }, function(err, newUser) {
-        callback(err, newUser);
-      })
+      }, callback);
     }
   });
 };

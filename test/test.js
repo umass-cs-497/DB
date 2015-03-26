@@ -3,13 +3,11 @@ var should = require('chai').should();
 var assert = require('assert');
 
 describe('Testing User collection:', function(){
-  var currentUser = null;
 
   before(function(done){
     db_api.users.createUser('test@test.com', 'password','username','role', function(err, doc){
       assert.equal(err, null);
       assert.notEqual(doc, null);
-      currentUser = doc;
       done();
     });
   });
