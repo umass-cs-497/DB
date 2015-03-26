@@ -7,9 +7,11 @@ describe('Testing User collection:', function(){
   /*
    *  precondition
    */
+  var currentUser=null;
   before(function(done){
     db_api.users.dropUserDatabase();
     db_api.users.createUser('test@test.com', 'password','username','role', function(err, doc){
+      currentUser = doc;
       assert.equal(err, null);
       assert.notEqual(doc, null);
       done();
@@ -152,8 +154,17 @@ describe('Testing User collection:', function(){
   /*
    * Test whether the user is properly deleted.
    */
-
-
+ 
+  /*
+   * Test whether the user is properly deleted.
+   */
+   it('retrieves user by ID: ID', function(done) {
+    db_api.users.getCoursesByEmail('id', function(id) {
+      assert.notEqual(id, null);
+      currentUser._id.should.eql('id');
+      done();
+    });
+  });
 
 });
 

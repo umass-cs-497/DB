@@ -96,7 +96,7 @@ userSchema.statics.deleteUserByEmail = function(email, callback) {
 /*
   Method to drop the whole user collection
  */
-userSchema.statics.dropUserDatabase = function(callback) {
+userSchema.statics.dropUserDatabase = function() {
   this.remove({}, function(err) {
     if (err) {
       console.log(err);
