@@ -67,21 +67,48 @@ describe('Testing User collection:', function(){
   });
 
 
-    it('Add notifications by Email: Email, title, url, date', function(done) {
-    db_api.users.addNotificationByEmail('test@test.com',{title: "title",url:"url",date:"date"}, function(err, count) {
+  it('Add notifications by Email: Email, title, url, date', function(done) {
+    db_api.users.addNotificationByEmail('test@test.com',{title: "title",url:"url",date:"date"}, function(err, email) {
       assert.equal(err, null);
-      assert.notEqual(count, 0);
-      count.should.eql(1);//1 for success 0 for failure
+      assert.notEqual(email, 0);
+      email.should.eql(1);//1 for success 0 for failure
       done();
     });
   });
-
-
+  it('retrieves notifications by Email', function(done) {
+    db_api.users.getNotificationsByEmail('test@test.com', function(err, notifications) {
+      // console.log(notifications);
+      assert.equal(err, null);
+      assert.notEqual(notifications, null);
+      notifications.should.eql({title: "title",url:"url",date:"date"});
+      done();
+    });
+  });
+  it('Add bookmark by Email: Email, title, url', function(done) {
+    db_api.users.addBookmarkByEmail('test@test.com',{title: "title",url:"url"}, function(err, email) {
+      assert.equal(err, null);
+      assert.notEqual(email, 0);
+      email.should.eql(1);//1 for success 0 for failure
+      done();
+    });
+  });
+  it('retrieves bookmark by Email', function(done) {
+    db_api.users.getBookmarksByEmail('test@test.com', function(err, bookmark) {
+     
+     console.log(bookmark);
+      assert.equal(err, null);
+      assert.notEqual(bookmark, null);
+      bookmark.should.eql({title: "title",url:"url",date:"date"});
+      done();
+    });
+  });  
 
 });
 
 /*
 addBookmarkByEmail
+
+getBookmarksByEmail
 
 
 addNotificationByEmail
