@@ -60,14 +60,15 @@ userSchema.statics.addNotificationByEmail = function(email, newNotification, cal
   Method to create a user with the given email, password, username and role.
  */
 userSchema.statics.createUser = function(email, password, username, role, callback) {
-  this.findOne({email: email}, function(err, user) {
+  var userModel = this;
+  userModel.findOne({email: email}, function(err, user) {
     if (err)
       callback(err);
     else if (user) {
       callback("user with email " + email + " already exists");
     }
     else {
-      this.create({
+      userModel.create({
         email: email,
         password: password,
         username: username,
@@ -75,6 +76,21 @@ userSchema.statics.createUser = function(email, password, username, role, callba
       }, function(err, newUser) {
         callback(err, newUser);
       })
+    }
+  });
+};
+
+/*
+  Method to delete user from database by email
+ */
+userSchema.statics.deleteUserByEmail = function(email, callback) {
+  var userModel = this;
+  userModel.remove({email: email}, function(err, count) {
+    if (err) {
+      callback(err);
+    }
+    else {
+      callback(undefined, count);
     }
   });
 };
@@ -100,7 +116,7 @@ userSchema.statics.getBookmarksByEmail = function(email, callback) {
   Method to get a user's registered courses by user's email.
  */
 userSchema.statics.getCoursesByEmail = function(email, callback) {
-  this.findOne(email)
+  this.findOne({email: email})
       .populate('courses')
       .exec(function(err, user) {
         if (err) {

@@ -6,7 +6,7 @@ describe('createUser', function(){
   var currentUser = null;
 
   beforeEach(function(done){
-    User.createUser('test@test.com', 'password','username','role', function(e,doc){
+    User.createUser('test@test.com', 'password','username','role', function(err, doc){
       currentUser = doc;
       done();
     });
@@ -16,7 +16,7 @@ describe('createUser', function(){
  
 
   it('registers a new user', function(done){
-    User.createUser('test2@test.com', 'password','username2','role2', function(doc){
+    User.createUser('test2@test.com', 'password','username2','role2', function(err, doc){
       doc.email.should.eql('test2@test.com');
       done();
     });
