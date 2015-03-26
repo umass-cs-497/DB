@@ -23,3 +23,7 @@ var commentSchema = new Schema({
   content: String,
   date: Date
 });
+
+var Comment = mongoose.model('Comment', commentSchema);
+
+exports.Comment = Comment;
