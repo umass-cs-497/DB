@@ -2,6 +2,7 @@ var db_api = require('../index.js');
 var should = require('chai').should();
 var assert = require('assert');
 
+
 describe('Testing User collection:', function(){
 
   before(function(done){
@@ -68,7 +69,7 @@ describe('Testing User collection:', function(){
 
 
   it('Add notifications by Email: Email, title, url, date', function(done) {
-    db_api.users.addNotificationByEmail('test@test.com',{title: "title",url:"url",date:"date"}, function(err, email) {
+    db_api.users.addNotificationByEmail('test@test.com',{title: "title",url:"url",date: new Date()}, function(err, email) {
       assert.equal(err, null);
       assert.notEqual(email, 0);
       email.should.eql(1);//1 for success 0 for failure
@@ -80,7 +81,8 @@ describe('Testing User collection:', function(){
       // console.log(notifications);
       assert.equal(err, null);
       assert.notEqual(notifications, null);
-      notifications.should.eql({title: "title",url:"url",date:"date"});
+      notifications[0].title.should.eql('title');
+      notifications[0].url.should.eql('url');
       done();
     });
   });
@@ -98,7 +100,8 @@ describe('Testing User collection:', function(){
      console.log(bookmark);
       assert.equal(err, null);
       assert.notEqual(bookmark, null);
-      bookmark.should.eql({title: "title",url:"url",date:"date"});
+      bookmark[0].title.should.eql('title');
+      bookmark[0].url.should.eql('url');  
       done();
     });
   });  
