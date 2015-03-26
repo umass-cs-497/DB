@@ -159,9 +159,10 @@ describe('Testing User collection:', function(){
    * Test whether the user is properly deleted.
    */
    it('retrieves user by ID: ID', function(done) {
-    db_api.users.getCoursesByEmail('id', function(id) {
+    db_api.users.getCoursesByEmail(currentUser._id, function(id) {
+      
       assert.notEqual(id, null);
-      currentUser._id.should.eql('id');
+      id.should.eql(currentUser);
       done();
     });
   });
