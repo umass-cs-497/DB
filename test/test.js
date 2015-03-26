@@ -66,5 +66,34 @@ describe('Testing User collection:', function(){
     });
   });
 
+
+    it('Add notifications by Email: Email, title, url, date', function(done) {
+    db_api.users.addNotificationByEmail('test@test.com',{title: "title",url:"url",date:"date"}, function(err, count) {
+      assert.equal(err, null);
+      assert.notEqual(count, 0);
+      count.should.eql(1);//1 for success 0 for failure
+      done();
+    });
+  });
+
+
+
 });
 
+/*
+addBookmarkByEmail
+
+
+addNotificationByEmail
+getNotificationsByEmail
+
+
+
+
+dropUserDatabase
+getBookmarksByEmail
+getCoursesByEmail
+
+getUserById
+
+*/
