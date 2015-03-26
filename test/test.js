@@ -137,6 +137,7 @@ describe('Testing User collection:', function(){
       done();
     });
   });  
+
   /*
    * Test whether the user returned is correct.
    */
@@ -147,8 +148,22 @@ describe('Testing User collection:', function(){
       done();
     });
   });  
+
+  /*
+   * Test whether the user is properly deleted.
+   */
+
+
+
 });
 
+  // it('drops the users from the database', function(message) {
+  //   db_api.users.getUserById('id', function(id) {
+  //     assert.notEqual(id, null);
+  //     id.should.not.eql(1);//1 for success
+  //     done();
+  //   });
+  // });  
 /*
 
 dropUserDatabase

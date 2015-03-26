@@ -100,11 +100,9 @@ userSchema.statics.dropUserDatabase = function(callback) {
   this.remove({}, function(err) {
     if (err) {
       console.log(err);
-      callback(err);
     }
     else
       console.log("user database dropped");
-  	  callback(1);
   });
 };
 
