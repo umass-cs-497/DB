@@ -40,10 +40,28 @@ describe('Testing User collection:', function(){
     });
   });
 
-  // it('fetches user by email', function(done){
-  //   user.findByEmail('test@test.com', function(doc){
-  //     doc.email.should.eql('test@test.com');
-  //     done();
-  //   });
-  // });
+
+  it('retrieves user Role by Email', function(done) {
+    db_api.users.getUserRoleByEmail('test@test.com', function(err, doc) {
+      assert.equal(err, null);
+      assert.notEqual(doc, null);
+      doc.role.should.eql('role');
+      done();
+    });
+  });
+it('set username by Email', function(done) {
+    db_api.users.setUsernameByEmail('test@test.com','username', function(err, doc) {
+      assert.equal(err, null);
+      assert.notEqual(doc, null);
+      doc.username.should.eql('username');
+      done();
+    });
+  });
+
+
+
+ 
+
+
+
 });
