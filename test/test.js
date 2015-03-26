@@ -5,6 +5,7 @@ var assert = require('assert');
 describe('Testing User collection:', function(){
 
   before(function(done){
+    db_api.users.dropUserDatabase();
     db_api.users.createUser('test@test.com', 'password','username','role', function(err, doc){
       assert.equal(err, null);
       assert.notEqual(doc, null);
@@ -47,6 +48,7 @@ describe('Testing User collection:', function(){
       done();
     });
   });
+
   it('set username by Email', function(done) {
     db_api.users.setUsernameByEmail('test@test.com','username', function(err, doc) {
       assert.equal(err, null);

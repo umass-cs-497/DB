@@ -94,6 +94,18 @@ userSchema.statics.deleteUserByEmail = function(email, callback) {
 };
 
 /*
+  Method to drop the whole user collection
+ */
+userSchema.statics.dropUserDatabase = function() {
+  this.remove({}, function(err) {
+    if (err) {
+      console.log(err);
+    }
+    else
+      console.log("user database dropped");
+  });
+};
+/*
   Method to get a user's bookmarks by user's email.
  */
 userSchema.statics.getBookmarksByEmail = function(email, callback) {
