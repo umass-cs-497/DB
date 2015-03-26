@@ -4,7 +4,9 @@ var assert = require('assert');
 
 
 describe('Testing User collection:', function(){
-
+  /*
+   *  precondition
+   */
   before(function(done){
     db_api.users.dropUserDatabase();
     db_api.users.createUser('test@test.com', 'password','username','role', function(err, doc){
@@ -13,6 +15,10 @@ describe('Testing User collection:', function(){
       done();
     });
   });
+
+  /*
+   * post-condition
+   */
   after(function(done) {
     db_api.users.deleteUserByEmail('test@test.com', function(err, count) {
       assert.equal(err, null);
@@ -22,6 +28,9 @@ describe('Testing User collection:', function(){
     })
   });
 
+  /*
+   * Tests whether a user gets stored in the database or not.
+   */
   it('registers a new user with email: test2@test.com', function(done){
     db_api.users.createUser('test2@test.com', 'password','username','role', function(err, doc){
       assert.equal(err, null);
@@ -31,6 +40,9 @@ describe('Testing User collection:', function(){
     });
   });
 
+  /*
+   * Tests whether an existing user gets deleted from the database
+   */
   it('deletes a user with email: test2@test.com', function(done) {
     db_api.users.deleteUserByEmail('test2@test.com', function(err, count) {
       assert.equal(err, null);
@@ -40,6 +52,9 @@ describe('Testing User collection:', function(){
     });
   });
 
+  /*
+   * Tests whether user role is return properly.
+   */
   it('retrieves user Role by Email', function(done) {
     db_api.users.getUserRoleByEmail('test@test.com', function(err, role) {
       assert.equal(err, null);
@@ -49,6 +64,9 @@ describe('Testing User collection:', function(){
     });
   });
 
+  /*
+   * Tests whether username is properly set.
+   */
   it('set username by Email', function(done) {
     db_api.users.setUsernameByEmail('test@test.com','username', function(err, count) {
       assert.equal(err, null);
@@ -58,6 +76,9 @@ describe('Testing User collection:', function(){
     });
   });
 
+  /*
+   * Test whether the function sets the name of the user prperly.
+   */
   it('set name by Email: firstname, lastname', function(done) {
     db_api.users.setNameByEmail('test@test.com','firstname','lastname', function(err, count) {
       assert.equal(err, null);
@@ -67,7 +88,9 @@ describe('Testing User collection:', function(){
     });
   });
 
-
+  /*
+   * Tests whether a notification is properly added by the function.
+   */
   it('Add notifications by Email: Email, title, url, date', function(done) {
     db_api.users.addNotificationByEmail('test@test.com',{title: "title",url:"url",date: new Date()}, function(err, email) {
       assert.equal(err, null);
@@ -76,9 +99,12 @@ describe('Testing User collection:', function(){
       done();
     });
   });
+
+  /*
+   * Tests whether notifications are properly retrieved.
+   */
   it('retrieves notifications by Email', function(done) {
     db_api.users.getNotificationsByEmail('test@test.com', function(err, notifications) {
-      // console.log(notifications);
       assert.equal(err, null);
       assert.notEqual(notifications, null);
       notifications[0].title.should.eql('title');
@@ -86,6 +112,10 @@ describe('Testing User collection:', function(){
       done();
     });
   });
+
+  /*
+   * Tests whether a bookmark is properly added by the function.
+   */
   it('Add bookmark by Email: Email, title, url', function(done) {
     db_api.users.addBookmarkByEmail('test@test.com',{title: "title",url:"url"}, function(err, email) {
       assert.equal(err, null);
@@ -94,10 +124,12 @@ describe('Testing User collection:', function(){
       done();
     });
   });
-  it('retrieves bookmark by Email', function(done) {
+
+  /*
+   * Tests whether a a bookmark is properly retrieved.
+   */
+  it('retrieves bookmark by Email: Email', function(done) {
     db_api.users.getBookmarksByEmail('test@test.com', function(err, bookmark) {
-     
-     console.log(bookmark);
       assert.equal(err, null);
       assert.notEqual(bookmark, null);
       bookmark[0].title.should.eql('title');
@@ -106,22 +138,21 @@ describe('Testing User collection:', function(){
     });
   });  
 
+  // it('retrieves course by Email', function(done) {
+  //   db_api.users.getBookmarksByEmail('test@test.com', function(err, bookmark) {
+  //     assert.equal(err, null);
+  //     assert.notEqual(bookmark, null);
+  //     bookmark[0].title.should.eql('title');
+  //     bookmark[0].url.should.eql('url');  
+  //     done();
+  //   });
+  // });  
 });
 
 /*
-addBookmarkByEmail
-
-getBookmarksByEmail
-
-
-addNotificationByEmail
-getNotificationsByEmail
-
-
-
 
 dropUserDatabase
-getBookmarksByEmail
+
 getCoursesByEmail
 
 getUserById
