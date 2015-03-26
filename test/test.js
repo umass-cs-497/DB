@@ -50,8 +50,17 @@ describe('Testing User collection:', function(){
       done();
     });
   });
-it('set username by Email', function(done) {
+it('set username by Email: username', function(done) {
     db_api.users.setUsernameByEmail('test@test.com','username', function(err, doc) {
+      assert.equal(err, null);
+      assert.notEqual(doc, null);
+      doc.should.eql(1);//1 for success 0 for failure
+      done();
+    });
+  });
+
+it('set name by Email: name', function(done) {
+    db_api.users.setNameByEmail('test@test.com','name', function(err, doc) {
       assert.equal(err, null);
       assert.notEqual(doc, null);
       doc.should.eql(1);//1 for success 0 for failure
@@ -61,8 +70,21 @@ it('set username by Email', function(done) {
 
 
 
+
  
 
 
 
 });
+/*
+addBookmarkByEmail
+addNotificationByEmail
+
+getBookmarksByEmail
+getCoursesByEmail
+getNotificationsByEmail
+
+getUserById
+setNameByEmail
+setUsernameByEmail
+*/
