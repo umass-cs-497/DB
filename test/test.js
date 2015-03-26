@@ -39,21 +39,20 @@ describe('Testing User collection:', function(){
     });
   });
 
-
   it('retrieves user Role by Email', function(done) {
-    db_api.users.getUserRoleByEmail('test@test.com', function(err, doc) {
+    db_api.users.getUserRoleByEmail('test@test.com', function(err, role) {
       assert.equal(err, null);
-      assert.notEqual(doc, null);
-      doc.role.should.eql('role');
+      assert.notEqual(role, null);
+      role.should.eql('role');
       done();
     });
   });
 
   it('set username by Email', function(done) {
-    db_api.users.setUsernameByEmail('test@test.com','username', function(err, doc) {
+    db_api.users.setUsernameByEmail('test@test.com','username', function(err, count) {
       assert.equal(err, null);
-      assert.notEqual(doc, null);
-      doc.username.should.eql('username');
+      assert.notEqual(count, 0);
+      count.should.eql(1);//1 for success 0 for failure
       done();
     });
   });
