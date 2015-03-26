@@ -155,6 +155,5 @@ dropUserDatabase
 
 getCoursesByEmail
 
-getUserById
 
 */
