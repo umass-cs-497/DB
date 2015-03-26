@@ -56,4 +56,15 @@ describe('Testing User collection:', function(){
       done();
     });
   });
+
+  it('set name by Email: firstname, lastname', function(done) {
+    db_api.users.setNameByEmail('test@test.com','firstname','lastname', function(err, count) {
+      assert.equal(err, null);
+      assert.notEqual(count, 0);
+      count.should.eql(1);//1 for success 0 for failure
+      done();
+    });
+  });
+
 });
+
