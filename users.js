@@ -18,9 +18,11 @@ var userSchema = new Schema({
     ref: 'Course'
   }],
   notifications: [{
+    type_id: Number,
     title: String,
     url: String,
-    date: Date
+    date: Date,
+    read: Boolean
   }],
   bookmarks: [{
     title: String,
@@ -43,6 +45,24 @@ userSchema.statics.addBookmarkByEmail = function(email, newBookmark, callback) {
       {$push: {bookmarks: newBookmark}},
       callback
   );
+};
+
+/*
+  Method to add course to student account by email.
+ */
+userSchema.statics.addCourseByEmail = function(email, courseId, callback) {
+  this.find({email: email}, function(err, user) {
+    if (err)
+      callback(err);
+    else if (!user)
+      callback("email does not exist");
+    else {
+      console.log(user);
+      console.log(user.courses);
+      user.courses.push(courseId);
+      callback(undefined, user);
+    }
+  })
 };
 
 /*
@@ -96,7 +116,7 @@ userSchema.statics.deleteUserByEmail = function(email, callback) {
 /*
   Method to drop the whole user collection
  */
-userSchema.statics.dropUserDatabase = function() {
+userSchema.statics.dropUserDatabase = function(callback) {
   this.remove({}, function(err) {
     if (err) {
       console.log(err);
@@ -104,6 +124,7 @@ userSchema.statics.dropUserDatabase = function() {
     else {
       console.log("user database dropped");
     }
+    callback();
   });
 };
 
@@ -146,7 +167,7 @@ userSchema.statics.getCoursesByEmail = function(email, callback) {
 /*
   Method to get user's notifications by user's email.
  */
-userSchema.statics.getNotificationsByEmail = function(email, callback) {
+userSchema.statics.getUnreadNotificationsByEmail = function(email, callback) {
   this.findOne({email: email}, function(err, user) {
     if (err) {
       callback(err);

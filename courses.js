@@ -35,6 +35,24 @@ var courseSchema = new Schema({
  */
 
 /*
+  Method to add user to course.
+ */
+courseSchema.statics.addUserById = function(courseId, userId, callback) {
+  this.findById(courseId, function(err, course) {
+    if (err) {
+      callback(err);
+    }
+    else if (!course) {
+      callback("courseID does not exist");
+    }
+    else {
+      course.registeredUsers.push(userId);
+      callback(undefined, course);
+    }
+  })
+};
+
+/*
   Method to create a course given basic info: semester, department (e.g, CMPSCI), course number(e.g, 497S).
  */
 courseSchema.statics.createCourse = function(semester, department, courseNumber, callback) {
@@ -46,9 +64,6 @@ courseSchema.statics.createCourse = function(semester, department, courseNumber,
   }, function(err, course) {
     if (err) {
       callback(err);
-    }
-    else if (course) {
-      callback(semester + " " + department + " " + courseNumber + " already exists.");
     }
     else {
       courseModel.create({

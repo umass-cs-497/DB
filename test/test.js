@@ -7,17 +7,20 @@ describe('Testing User collection:', function(){
    *  precondition
    */
   var testUser = null;
+  var testCourse = null;
+
   before(function(done){
-    db_api.users.dropUserDatabase();
-    db_api.users.createUser('test@test.com', 'password','username','role', function(err, doc){
-      testUser = doc;
-      assert.equal(err, null);
-      assert.notEqual(testUser, null);
-      assert.equal(testUser.email, 'test@test.com');
-      assert.equal(testUser.password, 'password');
-      assert.equal(testUser.username, 'username');
-      assert.equal(testUser.role, 'role');
-      done();
+    db_api.users.dropUserDatabase(function() {
+      db_api.users.createUser('test@test.com', 'password', 'username', 'role', function (err, doc) {
+        testUser = doc;
+        assert.equal(err, null);
+        assert.notEqual(testUser, null);
+        assert.equal(testUser.email, 'test@test.com');
+        assert.equal(testUser.password, 'password');
+        assert.equal(testUser.username, 'username');
+        assert.equal(testUser.role, 'role');
+        done();
+      });
     });
   });
 
@@ -96,12 +99,15 @@ describe('Testing User collection:', function(){
   /*
    * Tests whether a notification is properly added by the function.
    */
-  it('Add notifications by Email: Email, title, url, date', function(done) {
-    db_api.users.addNotificationByEmail('test@test.com',{title: "title",url:"url",date: new Date()}, function(err, count) {
-      assert.equal(err, null);
-      assert.notEqual(count, 0);
-      count.should.eql(1);//1 for success 0 for failure
-      done();
+  it('Add notifications by Email: Email, type, title, url, date', function(done) {
+    db_api.users.addNotificationByEmail(
+        'test@test.com',
+        {type_id: 1, title: 'title', url: 'url', date: new Date()},
+        function(err, count) {
+          assert.equal(err, null);
+          assert.notEqual(count, 0);
+          count.should.eql(1);//1 for success 0 for failure
+          done();
     });
   });
 
@@ -109,10 +115,11 @@ describe('Testing User collection:', function(){
    * Tests whether notifications are properly retrieved.
    */
   it('retrieves notifications by Email', function(done) {
-    db_api.users.getNotificationsByEmail('test@test.com', function(err, notifications) {
+    db_api.users.getUnreadNotificationsByEmail('test@test.com', function(err, notifications) {
       assert.equal(err, null);
       assert.notEqual(notifications, null);
       assert.equal(notifications.length, 1);
+      notifications[0].type_id.should.eql(1);
       notifications[0].title.should.eql('title');
       notifications[0].url.should.eql('url');
       done();
