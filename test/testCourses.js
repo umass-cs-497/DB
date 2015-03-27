@@ -15,7 +15,7 @@ describe('Testing Courses collection:', function(){
 	 		  assert.norEqual(testCourse, null);
 	 		  assert.equal(testCourse.semester, 'Fall');
 	 		  assert.equal(testCourse.department,'Sociology');
-	 		  assert.equal(testCourse.courseNumber, 'SOC101');
+	 		  assert.equal(testCourse.courseNumber, 'SOC10');
 	 		});
 	 	});
 	 });
