@@ -138,7 +138,6 @@ courseSchema.statics.dropCoursesDatabase = function(callback) {
     callback();
   });
 };
-};
 
 var Course = mongoose.model('Course', courseSchema);
 
