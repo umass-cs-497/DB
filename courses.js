@@ -123,6 +123,21 @@ courseSchema.statics.getAllUserEmailsById = function(id, callback) {
       callback(undefined, course.emails);
     }
   });
+
+/*
+ *
+ */
+userSchema.statics.dropCoursesDatabase = function(callback) {
+  this.remove({}, function(err) {
+    if (err) {
+      console.log(err);
+    }
+    else {
+      console.log("Course database dropped");
+    }
+    callback();
+  });
+};
 };
 
 var Course = mongoose.model('Course', courseSchema);
