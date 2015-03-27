@@ -150,9 +150,9 @@ describe('Testing User collection:', function(){
    * Test ObjectID must be a 12-byte string.
    */
   it('retrieves user by ID: ID', function(done) {
-    db_api.users.getUserById('012345678901', function(id) {
-      assert.notEqual(id, null);
-      id.should.not.eql('userID does not exist');
+    db_api.users.getUserById(testUser._id, function(err, user) {
+      assert.equal(err, null);
+      user.email.should.eql('test@test.com');
       done();
     });
   });
