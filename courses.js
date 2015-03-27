@@ -112,7 +112,7 @@ courseSchema.statics.getRegisteredUsersById = function(id, callback) {
   Method to get all eligible user emails by courseId.
  */
 courseSchema.statics.getAllUserEmailsById = function(id, callback) {
-  this.findById(id, function(err, course) {
+  this.findById(id, function (err, course) {
     if (err) {
       callback(err);
     }
@@ -123,6 +123,7 @@ courseSchema.statics.getAllUserEmailsById = function(id, callback) {
       callback(undefined, course.emails);
     }
   });
+};
 
 /*
  *
@@ -137,7 +138,6 @@ courseSchema.statics.dropCoursesDatabase = function(callback) {
     }
     callback();
   });
-};
 };
 
 var Course = mongoose.model('Course', courseSchema);
