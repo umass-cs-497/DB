@@ -2,18 +2,21 @@ var db_api = require('../index.js');
 var should = require('chai').should();
 var assert = require('assert');
 
-
 describe('Testing User collection:', function(){
   /*
    *  precondition
    */
-  var currentUser=null;
+  var testUser = null;
   before(function(done){
     db_api.users.dropUserDatabase();
     db_api.users.createUser('test@test.com', 'password','username','role', function(err, doc){
-      currentUser = doc;
+      testUser = doc;
       assert.equal(err, null);
-      assert.notEqual(doc, null);
+      assert.notEqual(testUser, null);
+      assert.equal(testUser.email, 'test@test.com');
+      assert.equal(testUser.password, 'password');
+      assert.equal(testUser.username, 'username');
+      assert.equal(testUser.role, 'role');
       done();
     });
   });
@@ -79,7 +82,7 @@ describe('Testing User collection:', function(){
   });
 
   /*
-   * Test whether the function sets the name of the user prperly.
+   * Test whether the function sets the name of the user properly.
    */
   it('set name by Email: firstname, lastname', function(done) {
     db_api.users.setNameByEmail('test@test.com','firstname','lastname', function(err, count) {
@@ -94,10 +97,10 @@ describe('Testing User collection:', function(){
    * Tests whether a notification is properly added by the function.
    */
   it('Add notifications by Email: Email, title, url, date', function(done) {
-    db_api.users.addNotificationByEmail('test@test.com',{title: "title",url:"url",date: new Date()}, function(err, email) {
+    db_api.users.addNotificationByEmail('test@test.com',{title: "title",url:"url",date: new Date()}, function(err, count) {
       assert.equal(err, null);
-      assert.notEqual(email, 0);
-      email.should.eql(1);//1 for success 0 for failure
+      assert.notEqual(count, 0);
+      count.should.eql(1);//1 for success 0 for failure
       done();
     });
   });
@@ -109,6 +112,7 @@ describe('Testing User collection:', function(){
     db_api.users.getNotificationsByEmail('test@test.com', function(err, notifications) {
       assert.equal(err, null);
       assert.notEqual(notifications, null);
+      assert.equal(notifications.length, 1);
       notifications[0].title.should.eql('title');
       notifications[0].url.should.eql('url');
       done();
@@ -119,10 +123,10 @@ describe('Testing User collection:', function(){
    * Tests whether a bookmark is properly added by the function.
    */
   it('Add bookmark by Email: Email, title, url', function(done) {
-    db_api.users.addBookmarkByEmail('test@test.com',{title: "title",url:"url"}, function(err, email) {
+    db_api.users.addBookmarkByEmail('test@test.com',{title: "title",url:"url"}, function(err, count) {
       assert.equal(err, null);
-      assert.notEqual(email, 0);
-      email.should.eql(1);//1 for success 0 for failure
+      assert.notEqual(count, 0);
+      count.should.eql(1);//1 for success 0 for failure
       done();
     });
   });
@@ -131,42 +135,27 @@ describe('Testing User collection:', function(){
    * Tests whether a a bookmark is properly retrieved.
    */
   it('retrieves bookmark by Email: Email', function(done) {
-    db_api.users.getBookmarksByEmail('test@test.com', function(err, bookmark) {
+    db_api.users.getBookmarksByEmail('test@test.com', function(err, bookmarks) {
       assert.equal(err, null);
-      assert.notEqual(bookmark, null);
-      bookmark[0].title.should.eql('title');
-      bookmark[0].url.should.eql('url');  
+      assert.notEqual(bookmarks, null);
+      assert.equal(bookmarks.length, 1);
+      bookmarks[0].title.should.eql('title');
+      bookmarks[0].url.should.eql('url');
       done();
     });
   });  
 
   /*
    * Test whether the user returned is correct.
+   * Test ObjectID must be a 12-byte string.
    */
   it('retrieves user by ID: ID', function(done) {
-    db_api.users.getUserById('id', function(id) {
+    db_api.users.getUserById('012345678901', function(id) {
       assert.notEqual(id, null);
       id.should.not.eql('userID does not exist');
       done();
     });
-  });  
-
-  /*
-   * Test whether the user is properly deleted.
-   */
- 
-  /*
-   * Test whether the user is properly deleted.
-   */
-   it('retrieves user by ID: ID', function(done) {
-    db_api.users.getCoursesByEmail(currentUser._id, function(id) {
-      
-      assert.notEqual(id, null);
-      id.should.eql(currentUser);
-      done();
-    });
   });
-
 });
 
   // it('drops the users from the database', function(message) {

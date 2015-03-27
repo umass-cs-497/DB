@@ -101,8 +101,9 @@ userSchema.statics.dropUserDatabase = function() {
     if (err) {
       console.log(err);
     }
-    else
+    else {
       console.log("user database dropped");
+    }
   });
 };
 
