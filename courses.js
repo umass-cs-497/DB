@@ -127,7 +127,7 @@ courseSchema.statics.getAllUserEmailsById = function(id, callback) {
 /*
  *
  */
-userSchema.statics.dropCoursesDatabase = function(callback) {
+courseSchema.statics.dropCoursesDatabase = function(callback) {
   this.remove({}, function(err) {
     if (err) {
       console.log(err);
