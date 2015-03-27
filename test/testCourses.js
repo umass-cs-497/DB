@@ -7,7 +7,9 @@ describe('Testing Courses collection:', function(){
 	 * Precondition
 	 */
 	 before(function(done){
-	 	//db_api.courses.dropCoursesDatabase
+	 	db_api.courses.dropCoursesDatabase(function(){
+
+	 	});
 	 });
 
 });
