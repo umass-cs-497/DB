@@ -163,20 +163,19 @@ describe('Testing User collection:', function(){
       done();
     });
   });
-});
 
-  // it('drops the users from the database', function(message) {
-  //   db_api.users.getUserById('id', function(id) {
-  //     assert.notEqual(id, null);
-  //     id.should.not.eql(1);//1 for success
-  //     done();
-  //   });
-  // });  
+
 /*
+ *
+ */
+ // it('retrieves courses by Email: Email', function(done){
+ //    db_api.users.getCoursesByEmail(testUser.email, function(courses){
+ //      console.log(courses);
+ //      done();
+ //    });
+ // }); 
 
-dropUserDatabase
+});
+// getCoursesByEmail
 
-getCoursesByEmail
 
-
-*/
