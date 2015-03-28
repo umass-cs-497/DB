@@ -48,7 +48,19 @@ describe('Testing Courses collection:', function(){
 		 	});
 		}); 	
 
-
+	   /*
+	    * Tests that getCourseById returns the right course.
+	    */
+	    it('retrieves a course by ID: ID', function(done){
+	    	db_api.courses.getCourseById(testCourse._id, function(err, course){
+	    		assert.equal(err,null);
+	    		assert.notEqual(course, null);
+	    		assert.equal(course.courseNumber,testCourse.courseNumber);
+	    		assert.equal(course.department,testCourse.department);
+	    		assert.equal(course.semester,testCourse.semester);
+	    		done();
+	    	});
+	    });
 });
 
 /*
