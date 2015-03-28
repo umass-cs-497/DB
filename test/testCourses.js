@@ -16,6 +16,7 @@ describe('Testing Courses collection:', function(){
 	 		  assert.equal(testCourse.semester, 'Fall');
 	 		  assert.equal(testCourse.department,'Sociology');
 	 		  assert.equal(testCourse.courseNumber, 'SOC101');
+	 		  done();
 	 		});
 	 	});
 	 });
@@ -25,25 +26,41 @@ describe('Testing Courses collection:', function(){
 	  */
 	  // after(function(done){
 	  // 	db_api.courses.dropCoursesDatabase(function(err, message){
-	  // 		console.log(message);
+	  // 		console.log(err);
 	  // 		assert.equal(err,null);
 	  // 		assert.notEqual(message,0);
-	  // 		message.should.eql(1);
+	  // 		assert.equal(message,1);
 	  // 		done();
 	  // 	});
 	  // });
 
 	  /*
-	   * 
+	   * Tests the createCourse method creates a course properly
 	   */
 	   it('creates a new course based on semester, department and courseNumber: Fall, Sociology, SOC101',function(done){
 		    db_api.courses.createCourse('Fall','Sociology','SOC101',function(err,course){
 	 		  assert.equal(err,null);
-	 		  assert.norEqual(courses, null);
-	 		  assert.equal(courses.semester, 'Fall');
+	 		  assert.notEqual(course, null);
+	 		  assert.equal(course.semester, 'Fall');
 	 		  assert.equal(course.department,'Sociology');
 	 		  assert.equal(course.courseNumber, 'SOC101');
 	 		  done();
 		 	});
 		}); 	
+
+
 });
+
+/*
+
+
+addUserById
+getCourseById
+getRegisteredUsersById
+getAllUserEmailsById
+
+dropCoursesDatabase
+
+
+
+*/
