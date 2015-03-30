@@ -48,7 +48,7 @@ For setter methods, callback should in the form function(error, number_of_docs_a
 
 
 
-back)
+
 
 
 
