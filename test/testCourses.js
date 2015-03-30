@@ -1,7 +1,6 @@
 var db_api = require('../index.js');
 var should = require('chai').should();
 var assert = require('assert');
-var expect = require('chai').expect();
 
 describe('Testing Courses collection:', function(){
 	
@@ -88,7 +87,7 @@ describe('Testing Courses collection:', function(){
 	     		assert.equal(err,null);
 	     		assert.notEqual(course,null);
 	     		course._id.should.eql(testCourse._id);
-	     		
+	     		course.registeredUsers[0].should.eql(testUser._id);
 	     		done();
 	     	});
 	     });
