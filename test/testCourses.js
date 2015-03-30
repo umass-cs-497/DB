@@ -50,15 +50,14 @@ describe('Testing Courses collection:', function(){
 	 /*
 	  * Post-condition
 	  */
-	  // after(function(done){
-	  // 	db_api.courses.dropCoursesDatabase(function(err, message){
-	  // 		console.log(err);
-	  // 		assert.equal(err,null);
-	  // 		assert.notEqual(message,0);
-	  // 		assert.equal(message,1);
-	  // 		done();
-	  // 	});
-	  // });
+	  after(function(done){
+	  	db_api.courses.deleteCourseById(testCourse._id,function(err,count){
+		   	 		assert.equal(err,null);
+		   	 		assert.notEqual(count,null);
+		   	 		count.should.eql(1);//1 for success
+		   	 		done();
+		   	 	});
+	  });
 
 	  /*
 	   * Tests the createCourse method creates a course properly.
@@ -156,12 +155,3 @@ describe('Testing Courses collection:', function(){
 		  
 });
 
-/*
-getRegisteredUsersById
-getAllUserEmailsById
-
-dropCoursesDatabase
-
-
-
-*/
