@@ -177,5 +177,6 @@ describe('Testing User collection:', function(){
 
 });
 // getCoursesByEmail
+//addCourseByEmail
 
 

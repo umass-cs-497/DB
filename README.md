@@ -1,3 +1,3 @@
-# Testing Database
+# Database API
 --------
-In a terminal first install the necesary dependencies; "npm install". Then, just type "make test"
+hello
