@@ -4,6 +4,11 @@
 ## Courses DB API
 ---
 
+Methods to access the User database;
+For getter methods, callback should in the form function(error, returned_data).
+For setter methods, callback should in the form function(error, number_of_docs_affected, raw_mongo_response).
+
+
 |	Method							|  return              |
 |--------------------------------|-----------------------------------|
 |deleteUserByEmail(email, callback) | return 1 for success 0 for failure|
