@@ -63,7 +63,7 @@ describe('Testing Courses collection:', function(){
 	   * Tests the createCourse method creates a course properly.
 	   */
 	   var newCourse = null;//for deletion.
-	   it('creates a new course based on semester, department and courseNumber',function(done){
+	   it('creates a new course: semester, department ourseNumber',function(done){
 		    db_api.courses.createCourse('Spring','Psychology','PS101',function(err,course){
 	 		  newCourse = course;
 	 		  assert.equal(err,null);
