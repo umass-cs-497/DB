@@ -140,6 +140,9 @@ courseSchema.statics.dropCoursesDatabase = function(callback) {
   });
 };
 
+/*
+ * Deletes a course by id.
+ */
 courseSchema.statics.deleteCourseById = function(courseID, callback){
   var courseDB = this;
   courseDB.remove({"_id": courseID},function(err,count){
