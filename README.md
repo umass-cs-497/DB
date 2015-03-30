@@ -1,6 +1,9 @@
 # Database API
 --------
 
+## Courses DB API
+---
+
 |	Method							|  return              |
 |--------------------------------|-----------------------------------|
 |deleteUserByEmail(email, callback) | return 1 for success 0 for failure|
