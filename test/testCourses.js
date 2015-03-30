@@ -80,7 +80,7 @@ describe('Testing Courses collection:', function(){
 	    });
 
 	    /*
-	     *
+	     * Test that the user is added by its id and and course id.
 	     */
 	     it('add user to a course by ID: courseID, userID', function(done){
 	     	db_api.courses.addUserById(testCourse._id,testUser._id,function(err,course){
@@ -95,8 +95,6 @@ describe('Testing Courses collection:', function(){
 
 /*
 
-
-addUserById
 
 getCourseById
 getRegisteredUsersById
