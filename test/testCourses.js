@@ -135,10 +135,25 @@ describe('Testing Courses collection:', function(){
 		   	db_api.courses.getAllUserEmailsById(testCourse._id,function(err,user){
 		   		assert.equal(err,null);
 		   		assert.notEqual(user,null);
-		   		console.log(user);
+		   		console.log("esto");
 		   		done();
 		   	});
 		   });
+
+		   	/*
+		   	 * Test that deleteCourseById deletes the course properly.
+		   	 */
+		   	 it('deletes a course by ID: courseID',function(done){
+		   	 	db_api.courses.deleteCourseById(testCourse._id,function(err,count){
+		   	 		assert.equal(err,null);
+		   	 		assert.notEqual(count,null);
+		   	 		count.should.eql(1);//1 for success
+		   	 		done();
+		   	 	});
+		   	 });
+
+
+		  
 });
 
 /*

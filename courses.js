@@ -146,10 +146,12 @@ courseSchema.statics.dropCoursesDatabase = function(callback) {
 courseSchema.statics.deleteCourseById = function(courseID, callback){
   var courseDB = this;
   courseDB.remove({"_id": courseID},function(err,count){
-    if(err)
+    if(err){
       callback(err);
-    else
-      callback(undefined, count)
+    }
+    else{
+      callback(undefined, count);
+    }
   });
 };
 
