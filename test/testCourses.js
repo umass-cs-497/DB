@@ -1,12 +1,15 @@
 var db_api = require('../index.js');
 var should = require('chai').should();
 var assert = require('assert');
+var expect = require('chai').expect();
 
 describe('Testing Courses collection:', function(){
+	
 	/*
 	 * Precondition
 	 */
 	 var testCourse = null;
+	 var testUser   = null;
 	 before(function(done){
 	 	db_api.courses.dropCoursesDatabase(function(){
 	 		db_api.courses.createCourse('Fall','Sociology','SOC101', function(err,course) {
@@ -18,6 +21,21 @@ describe('Testing Courses collection:', function(){
 	 		  assert.equal(testCourse.courseNumber, 'SOC101');
 	 		  done();
 	 		});
+	 	});
+	 });
+
+	 before(function(done){
+	 	db_api.users.dropUserDatabase(function(){
+		 	db_api.users.createUser('test20@test.com', 'password', 'username', 'role', function(err,usr){
+		 		testUser = usr;
+		        assert.equal(err, null);
+		        assert.notEqual(testUser, null);
+		        assert.equal(testUser.email, 'test20@test.com');
+		        assert.equal(testUser.password, 'password');
+		        assert.equal(testUser.username, 'username');
+		        assert.equal(testUser.role, 'role');
+		        done();
+			});		 		
 	 	});
 	 });
 
@@ -61,12 +79,26 @@ describe('Testing Courses collection:', function(){
 	    		done();
 	    	});
 	    });
+
+	    /*
+	     *
+	     */
+	     it('add user to a course by ID: courseID, userID', function(done){
+	     	db_api.courses.addUserById(testCourse._id,testUser._id,function(err,course){
+	     		assert.equal(err,null);
+	     		assert.notEqual(course,null);
+	     		course._id.should.eql(testCourse._id);
+	     		
+	     		done();
+	     	});
+	     });
 });
 
 /*
 
 
 addUserById
+
 getCourseById
 getRegisteredUsersById
 getAllUserEmailsById
