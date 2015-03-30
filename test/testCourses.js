@@ -62,13 +62,15 @@ describe('Testing Courses collection:', function(){
 	  /*
 	   * Tests the createCourse method creates a course properly.
 	   */
-	   it('creates a new course based on semester, department and courseNumber: Fall, Sociology, SOC101',function(done){
-		    db_api.courses.createCourse('Fall','Sociology','SOC101',function(err,course){
+	   var newCourse = null;
+	   it('creates a new course based on semester, department and courseNumber',function(done){
+		    db_api.courses.createCourse('Spring','Psychology','PS101',function(err,course){
+	 		  newCourse = course;
 	 		  assert.equal(err,null);
 	 		  assert.notEqual(course, null);
-	 		  assert.equal(course.semester, 'Fall');
-	 		  assert.equal(course.department,'Sociology');
-	 		  assert.equal(course.courseNumber, 'SOC101');
+	 		  assert.equal(course.semester, 'Spring');
+	 		  assert.equal(course.department,'Psychology');
+	 		  assert.equal(course.courseNumber, 'PS101');
 	 		  done();
 		 	});
 		}); 	
@@ -143,7 +145,7 @@ describe('Testing Courses collection:', function(){
 		   	 * Test that deleteCourseById deletes the course properly.
 		   	 */
 		   	 it('deletes a course by ID: courseID',function(done){
-		   	 	db_api.courses.deleteCourseById(testCourse._id,function(err,count){
+		   	 	db_api.courses.deleteCourseById(newCourse._id,function(err,count){
 		   	 		assert.equal(err,null);
 		   	 		assert.notEqual(count,null);
 		   	 		count.should.eql(1);//1 for success
