@@ -5,7 +5,7 @@ var assert = require('assert');
 describe('Testing Courses collection:', function(){
 	
 	/*
-	 * Precondition
+	 * Preconditions.
 	 */
 	 var testCourse = null;
 	 var testUser   = null;
@@ -22,7 +22,7 @@ describe('Testing Courses collection:', function(){
 	 		});
 	 	});
 	 });
-
+	 //required for a test user.
 	 before(function(done){
 	 	db_api.users.dropUserDatabase(function(){
 		 	db_api.users.createUser('test20@test.com', 'password', 'username', 'role', function(err,usr){
@@ -52,7 +52,7 @@ describe('Testing Courses collection:', function(){
 	  // });
 
 	  /*
-	   * Tests the createCourse method creates a course properly
+	   * Tests the createCourse method creates a course properly.
 	   */
 	   it('creates a new course based on semester, department and courseNumber: Fall, Sociology, SOC101',function(done){
 		    db_api.courses.createCourse('Fall','Sociology','SOC101',function(err,course){
@@ -91,12 +91,28 @@ describe('Testing Courses collection:', function(){
 	     		done();
 	     	});
 	     });
+
+	     /*
+	      * Tests that the course retreived by course id is correct.
+	      */
+	      it('retrieves course by Id: courseID',function(done){
+	      	db_api.courses.getCourseById(testCourse._id, function(err,course){
+	      		assert.equal(err, null);
+	      		assert.notEqual(course,null);
+	      		assert.equal(course.courseNumber, 'SOC101');
+	      		assert.equal(course.semester, 'Fall');
+	      		assert.equal(course.department,'Sociology');
+	      		course._id.should.eql(testCourse._id);
+	      		done();
+	      	});
+	      });
 });
 
 /*
 
 
 getCourseById
+
 getRegisteredUsersById
 getAllUserEmailsById
 
