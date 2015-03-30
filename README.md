@@ -34,8 +34,8 @@ For setter methods, callback should in the form function(error, number_of_docs_a
 |createUser(email, password, username, role, callback) | return 1 for success 0 for failure|
 |deleteUserByEmail(email, callback) | return 1 for success 0 for failure|
 |dropUserDatabase(callback) | return 1 for success 0 for failure|
-|getBookmarksByEmail(email, callback) |
-|getCoursesByEmail(email, callback) |
+|getBookmarksByEmail(email, callback) | return user.bookmarks|
+|getCoursesByEmail(email, callback) | return user.courses|
 |getUnreadNotificationsByEmail(email, callback) | return userrs.notifications|
 |getUserRoleByEmail(email, callback) | return user.role|
 |getUserById(id, callback) | return entire user info|
