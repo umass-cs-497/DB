@@ -126,7 +126,7 @@ courseSchema.statics.getAllUserEmailsById = function(id, callback) {
 };
 
 /*
- *
+ * Method that will drop the database of the courses
  */
 courseSchema.statics.dropCoursesDatabase = function(callback) {
   this.remove({}, function(err) {
@@ -137,6 +137,16 @@ courseSchema.statics.dropCoursesDatabase = function(callback) {
       console.log("Course database dropped");
     }
     callback();
+  });
+};
+
+courseSchema.statics.deleteCourseById = function(courseID, callback){
+  var courseDB = this;
+  courseDB.remove({"_id": courseID},function(err,count){
+    if(err)
+      callback(err);
+    else
+      callback(undefined, count)
   });
 };
 

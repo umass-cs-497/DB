@@ -38,6 +38,15 @@ describe('Testing Courses collection:', function(){
 	 	});
 	 });
 
+	 before(function(done){
+	 	db_api.courses.addUserById(testCourse._id, testUser._id, function(err,course){
+	 		assert.equal(err,null);
+	 		assert.notEqual(course,null);
+	 		course._id.should.eql(testCourse._id);
+	 		done();
+	 	});
+	 });
+
 	 /*
 	  * Post-condition
 	  */
@@ -106,13 +115,33 @@ describe('Testing Courses collection:', function(){
 	      		done();
 	      	});
 	      });
+
+	      /*
+	       * Tests that the users returned are correct.
+	       */
+	       it('retrieves users email by courseId: courseID',function(done){
+	       	 db_api.courses.getRegisteredUsersById(testCourse._id,function(err,user){
+	       	 	assert.equal(err,null);
+	       	 	assert.notEqual(user,null);
+	       	 	console.log(user);
+	       	 	done();
+	       	 });
+	       });
+
+	      /*
+		   * Tests that the users emails returned are correct.
+		   */
+		   it('retrieves user email by courseID: courseID',function(done){
+		   	db_api.courses.getAllUserEmailsById(testCourse._id,function(err,user){
+		   		assert.equal(err,null);
+		   		assert.notEqual(user,null);
+		   		console.log(user);
+		   		done();
+		   	});
+		   });
 });
 
 /*
-
-
-getCourseById
-
 getRegisteredUsersById
 getAllUserEmailsById
 
