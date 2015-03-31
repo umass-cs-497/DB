@@ -2,8 +2,7 @@ var db_api = require('../index.js');
 var should = require('chai').should();
 var assert = require('assert');
 
-describe('Testing Courses collection:', function(){
-	
+describe('Testing Courses collection:', function() {
 	/*
 	 * Preconditions.
 	 */
