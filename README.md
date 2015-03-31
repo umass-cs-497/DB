@@ -2,8 +2,8 @@
 --------
 
 * Methods to access the User database.
-* For getter methods, callback should in the form function(error, returned_data).
-* For setter methods, callback should in the form function(error, affected_document).
+* For getter methods, callback should be in the form function(error, returned_data).
+* For setter methods, callback should be in the form function(error, affected_document).
 
 ## Users API
 ---
