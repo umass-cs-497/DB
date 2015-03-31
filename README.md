@@ -3,44 +3,26 @@
 
 Methods to access the User database;
 For getter methods, callback should in the form function(error, returned_data).
-For setter methods, callback should in the form function(error, number_of_docs_affected, raw_mongo_response).
+For setter methods, callback should in the form function(error, affected_document).
 
-## Courses DB API
+## Users API
 ---
-
-
 
 |	Method							|  return              |
 |--------------------------------|-----------------------------------|
-|deleteUserByEmail(email, callback) | return 1 for success 0 for failure|
-|dropUserDatabase(callback) | return 1 for success 0 for failure|
-|getBookmarksByEmail(email, callback) | return users bookmarks|
-|getCoursesByEmail(email, callback) | return users courses|
-|getUnreadNotificationsByEmail(email, callback) | return users notification|
-|getUserById(Objectid, callback) | return whole users info|
-|getUserRoleByEmai(email, callback) | return users role|
-|setNameByEmail(email, firstName, lastName, callback) | return 1 for success 0 for failure|
-|setUsernameByEmail(email, newUsername, callback) | return 1 for success 0 for failure|
-
-## Users DB API
----
-
-
-|	Method							|  return              |
-|--------------------------------|-----------------------------------|
-|addBookmarkByEmail(email, newBookmark, callback) | return 1 for success 0 for failure|
-|addCourseByEmail(email, courseId, callback) | return 1 for success 0 for failure|
-|addNotificationByEmail(email, newNotification, callback) | return 1 for success 0 for failure|
-|createUser(email, password, username, role, callback) | return 1 for success 0 for failure|
-|deleteUserByEmail(email, callback) | return 1 for success 0 for failure|
-|dropUserDatabase(callback) | return 1 for success 0 for failure|
-|getBookmarksByEmail(email, callback) | return user.bookmarks|
-|getCoursesByEmail(email, callback) | return user.courses|
-|getUnreadNotificationsByEmail(email, callback) | return userrs.notifications|
-|getUserRoleByEmail(email, callback) | return user.role|
-|getUserById(id, callback) | return entire user info|
-|setNameByEmail(email, firstName, lastName, callback) | return 1 for success 0 for failure|
-|setUsernameByEmail(email, newUsername, callback) | return 1 for success 0 for failure|
+|addBookmarkById(user_id, newBookmark, callback) | return edited user (if any)|
+|addCourseById(user_id, courseId, callback) | return edited user (if any)|
+|addNotificationById(user_id, newNotification, callback) | return edited user (if any)|
+|createUser(user_id, password, username, role, callback) | return created user (if any)|
+|deleteUserById(user_id, callback) | return deleted user (if any)|
+|dropUserDatabase(callback) | return void|
+|getBookmarksById(user_id, callback) | return users bookmarks|
+|getCoursesById(user_id, callback) | return users courses|
+|getUnreadNotificationsById(user_id, callback) | return users notification|
+|getUserById(user_id, callback) | return whole users info|
+|getUserRoleById(user_id, callback) | return users role|
+|setNameById(user_id, firstName, lastName, callback) | return edited user (if any)|
+|setUsernameById(user_id, newUsername, callback) | return edited user (if any)|
 
 
 

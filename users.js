@@ -17,13 +17,7 @@ var userSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Course'
   }],
-  notifications: [{
-    type_id: Number,
-    title: String,
-    url: String,
-    date: Date,
-    read: Boolean
-  }],
+  notifications: [],
   bookmarks: [{
     title: String,
     url: String
@@ -39,9 +33,9 @@ var userSchema = new Schema({
 /*
   Method to add a bookmark to the user account with given email.
  */
-userSchema.statics.addBookmarkByEmail = function(email, newBookmark, callback) {
-  this.update(
-      {email: email},
+userSchema.statics.addBookmarkById = function(id, newBookmark, callback) {
+  this.findByIdAndUpdate(
+      id,
       {$push: {bookmarks: newBookmark}},
       callback
   );
@@ -50,8 +44,8 @@ userSchema.statics.addBookmarkByEmail = function(email, newBookmark, callback) {
 /*
   Method to add course to student account by email.
  */
-userSchema.statics.addCourseByEmail = function(email, courseId, callback) {
-  this.find({email: email}, function(err, user) {
+userSchema.statics.addCourseById = function(id, courseId, callback) {
+  this.findById(id, function(err, user) {
     if (err)
       callback(err);
     else if (!user)
@@ -62,15 +56,15 @@ userSchema.statics.addCourseByEmail = function(email, courseId, callback) {
       user.courses.push(courseId);
       callback(undefined, user);
     }
-  })
+  });
 };
 
 /*
   Method to add a notification to the user account with given email.
  */
-userSchema.statics.addNotificationByEmail = function(email, newNotification, callback) {
-  this.update(
-      {email: email},
+userSchema.statics.addNotificationById = function(id, newNotification, callback) {
+  this.findByIdAndUpdate(
+      id,
       {$push: {notifications: newNotification}},
       callback
   );
@@ -85,7 +79,7 @@ userSchema.statics.createUser = function(email, password, username, role, callba
     if (err)
       callback(err);
     else if (user) {
-      callback("user with email " + email + " already exists");
+      callback("user with email " + email + " already exists.");
     }
     else {
       userModel.create({
@@ -101,14 +95,14 @@ userSchema.statics.createUser = function(email, password, username, role, callba
 /*
   Method to delete user from database by email
  */
-userSchema.statics.deleteUserByEmail = function(email, callback) {
+userSchema.statics.deleteUserById = function(id, callback) {
   var userModel = this;
-  userModel.remove({email: email}, function(err, count) {
+  userModel.findByIdAndRemove(id, function(err, user) {
     if (err) {
       callback(err);
     }
     else {
-      callback(undefined, count);
+      callback(undefined, user);
     }
   });
 };
@@ -131,8 +125,8 @@ userSchema.statics.dropUserDatabase = function(callback) {
 /*
   Method to get a user's bookmarks by user's email.
  */
-userSchema.statics.getBookmarksByEmail = function(email, callback) {
-  this.findOne({email: email}, function(err, user) {
+userSchema.statics.getBookmarksById = function(id, callback) {
+  this.findOne({_id: id}, function(err, user) {
     if (err) {
       callback(err);
     }
@@ -148,8 +142,8 @@ userSchema.statics.getBookmarksByEmail = function(email, callback) {
 /*
   Method to get a user's registered courses by user's email.
  */
-userSchema.statics.getCoursesByEmail = function(email, callback) {
-  this.findOne({email: email})
+userSchema.statics.getCoursesById = function(id, callback) {
+  this.findById(id)
       .populate('courses')
       .exec(function(err, user) {
         if (err) {
@@ -167,8 +161,8 @@ userSchema.statics.getCoursesByEmail = function(email, callback) {
 /*
   Method to get user's notifications by user's email.
  */
-userSchema.statics.getUnreadNotificationsByEmail = function(email, callback) {
-  this.findOne({email: email}, function(err, user) {
+userSchema.statics.getAllNotificationsById = function(id, callback) {
+  this.findById(id, function(err, user) {
     if (err) {
       callback(err);
     }
@@ -184,8 +178,8 @@ userSchema.statics.getUnreadNotificationsByEmail = function(email, callback) {
 /*
   Method to get user's role (student, instructor,...) by user's email.
  */
-userSchema.statics.getUserRoleByEmail = function(email, callback) {
-  this.findOne({email: email}, function(err, user) {
+userSchema.statics.getUserRoleById = function(id, callback) {
+  this.findById(id, function(err, user) {
     if (err) {
       callback(err);
     }
@@ -217,9 +211,9 @@ userSchema.statics.getUserById = function(id, callback) {
 /*
   Method to change user first and last name.
  */
-userSchema.statics.setNameByEmail = function(email, firstName, lastName, callback) {
-  this.update(
-      {email: email},
+userSchema.statics.setNameById = function(id, firstName, lastName, callback) {
+  this.findByIdAndUpdate(
+      id,
       {$set: {name : {first: firstName, last: lastName}}},
       callback
   );
@@ -228,9 +222,9 @@ userSchema.statics.setNameByEmail = function(email, firstName, lastName, callbac
 /*
   Method to update username.
  */
-userSchema.statics.setUsernameByEmail = function(email, newUsername, callback) {
-  this.update(
-      {email: email},
+userSchema.statics.setUsernameById = function(id, newUsername, callback) {
+  this.findByIdAndUpdate(
+      id,
       {$set: {username : newUsername}},
       callback
   );

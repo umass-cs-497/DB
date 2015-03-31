@@ -7,7 +7,6 @@ describe('Testing User collection:', function(){
    *  precondition
    */
   var testUser = null;
-  var testCourse = null;
 
   before(function(done){
     db_api.users.dropUserDatabase(function() {
@@ -28,43 +27,19 @@ describe('Testing User collection:', function(){
    * post-condition
    */
   after(function(done) {
-    db_api.users.deleteUserByEmail('test@test.com', function(err, count) {
+    db_api.users.deleteUserById(testUser._id, function(err, user) {
       assert.equal(err, null);
-      assert.notEqual(count, 0);
-      count.should.eql(1);
+      assert.notEqual(user, null);
+      user._id.should.eql(testUser._id);
       done();
     })
   });
 
   /*
-   * Tests whether a user gets stored in the database or not.
-   */
-  it('registers a new user with email: test2@test.com', function(done){
-    db_api.users.createUser('test2@test.com', 'password','username','role', function(err, doc){
-      assert.equal(err, null);
-      assert.notEqual(doc, null);
-      doc.email.should.eql('test2@test.com');
-      done();
-    });
-  });
-
-  /*
-   * Tests whether an existing user gets deleted from the database
-   */
-  it('deletes a user with email: test2@test.com', function(done) {
-    db_api.users.deleteUserByEmail('test2@test.com', function(err, count) {
-      assert.equal(err, null);
-      assert.notEqual(count, null);
-      count.should.eql(1);
-      done();
-    });
-  });
-
-  /*
    * Tests whether user role is return properly.
    */
-  it('retrieves user Role by Email', function(done) {
-    db_api.users.getUserRoleByEmail('test@test.com', function(err, role) {
+  it('retrieves user Role by ObjectID', function(done) {
+    db_api.users.getUserRoleById(testUser._id, function(err, role) {
       assert.equal(err, null);
       assert.notEqual(role, null);
       role.should.eql('role');
@@ -75,11 +50,11 @@ describe('Testing User collection:', function(){
   /*
    * Tests whether username is properly set.
    */
-  it('set username by Email', function(done) {
-    db_api.users.setUsernameByEmail('test@test.com','username', function(err, count) {
+  it('set username by ObjectId', function(done) {
+    db_api.users.setUsernameById(testUser._id,'newUsername', function(err, doc) {
       assert.equal(err, null);
-      assert.notEqual(count, 0);
-      count.should.eql(1);//1 for success 0 for failure
+      assert.notEqual(doc, null);
+      doc.username.should.eql('newUsername');//1 for success 0 for failure
       done();
     });
   });
@@ -87,11 +62,12 @@ describe('Testing User collection:', function(){
   /*
    * Test whether the function sets the name of the user properly.
    */
-  it('set name by Email: firstname, lastname', function(done) {
-    db_api.users.setNameByEmail('test@test.com','firstname','lastname', function(err, count) {
+  it('set name by ObjectId: firstname, lastname', function(done) {
+    db_api.users.setNameById(testUser._id, 'firstname','lastname', function(err, doc) {
       assert.equal(err, null);
-      assert.notEqual(count, 0);
-      count.should.eql(1);//1 for success 0 for failure
+      assert.notEqual(doc, null);
+      doc.name.first.should.eql('firstname');
+      doc.name.last.should.eql('lastname');
       done();
     });
   });
@@ -99,14 +75,16 @@ describe('Testing User collection:', function(){
   /*
    * Tests whether a notification is properly added by the function.
    */
-  it('Add notifications by Email: Email, type, title, url, date', function(done) {
-    db_api.users.addNotificationByEmail(
-        'test@test.com',
+  it('Add notifications by ObjectId: id, type, title, url, date', function(done) {
+    db_api.users.addNotificationById(
+        testUser._id,
         {type_id: 1, title: 'title', url: 'url', date: new Date()},
-        function(err, count) {
+        function(err, doc) {
           assert.equal(err, null);
-          assert.notEqual(count, 0);
-          count.should.eql(1);//1 for success 0 for failure
+          assert.notEqual(doc, null);
+          doc.notifications[0].title.should.eql('title');
+          doc.notifications[0].url.should.eql('url');
+          doc.notifications.length.should.eql(1);
           done();
     });
   });
@@ -114,8 +92,8 @@ describe('Testing User collection:', function(){
   /*
    * Tests whether notifications are properly retrieved.
    */
-  it('retrieves notifications by Email', function(done) {
-    db_api.users.getUnreadNotificationsByEmail('test@test.com', function(err, notifications) {
+  it('retrieves notifications by ObjectId', function(done) {
+    db_api.users.getAllNotificationsById(testUser._id, function(err, notifications) {
       assert.equal(err, null);
       assert.notEqual(notifications, null);
       assert.equal(notifications.length, 1);
@@ -129,11 +107,13 @@ describe('Testing User collection:', function(){
   /*
    * Tests whether a bookmark is properly added by the function.
    */
-  it('Add bookmark by Email: Email, title, url', function(done) {
-    db_api.users.addBookmarkByEmail('test@test.com',{title: "title",url:"url"}, function(err, count) {
+  it('Add bookmark by ObjectId: id, title, url', function(done) {
+    db_api.users.addBookmarkById(testUser._id, {title: "title",url:"url"}, function(err, user) {
       assert.equal(err, null);
-      assert.notEqual(count, 0);
-      count.should.eql(1);//1 for success 0 for failure
+      assert.notEqual(user, null);
+      user.bookmarks.length.should.eql(1);
+      user.bookmarks[0].title.should.eql('title');
+      user.bookmarks[0].url.should.eql('url');
       done();
     });
   });
@@ -141,8 +121,8 @@ describe('Testing User collection:', function(){
   /*
    * Tests whether a a bookmark is properly retrieved.
    */
-  it('retrieves bookmark by Email: Email', function(done) {
-    db_api.users.getBookmarksByEmail('test@test.com', function(err, bookmarks) {
+  it('retrieves bookmark by ObjectId: ObjectId', function(done) {
+    db_api.users.getBookmarksById(testUser._id, function(err, bookmarks) {
       assert.equal(err, null);
       assert.notEqual(bookmarks, null);
       assert.equal(bookmarks.length, 1);
@@ -163,20 +143,6 @@ describe('Testing User collection:', function(){
       done();
     });
   });
-
-
-/*
- *
- */
- // it('retrieves courses by Email: Email', function(done){
- //    db_api.users.getCoursesByEmail(testUser.email, function(courses){
- //      console.log(courses);
- //      done();
- //    });
- // }); 
-
 });
-// getCoursesByEmail
-//addCourseByEmail
 
 
