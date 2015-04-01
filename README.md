@@ -27,6 +27,23 @@
 
 
 
+## Courses API
+---
+
+|	Method							|  return              |
+|--------------------------------|-----------------------------------|
+addUserById(courseId, userId, callback) | return course |
+createCourse(semester, department, courseNumber, callback) | return course |
+getCourseById(courseId, callback) | return course | 
+getRegisteredUsersById(id, callback) | return course.registeredUsers |
+getAllUserEmailsById(id, callback) | returne course.emails|
+dropCoursesDatabase(callback) | return 1 for success 0 for failure |
+deleteCourseById(courseID, callback) | return 1 for success 0 for failure |
+
+
+
+ 
+
 
 
 
