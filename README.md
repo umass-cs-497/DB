@@ -15,7 +15,6 @@
 |addNotificationById(user_id, newNotification, callback) | return edited user (if any)|
 |createUser(user_id, password, username, role, callback) | return created user (if any)|
 |deleteUserById(user_id, callback) | return deleted user (if any)|
-|dropUserDatabase(callback) | return void|
 |getBookmarksById(user_id, callback) | return users bookmarks|
 |getCoursesById(user_id, callback) | return users courses|
 |getUnreadNotificationsById(user_id, callback) | return users notification|

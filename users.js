@@ -108,7 +108,8 @@ userSchema.statics.deleteUserById = function(id, callback) {
 };
 
 /*
-  Method to drop the whole user collection
+  Method to drop the whole user collection.
+  Just for testing. No need to be listed in public API.
  */
 userSchema.statics.dropUserDatabase = function(callback) {
   this.remove({}, function(err) {
