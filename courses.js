@@ -104,7 +104,7 @@ courseSchema.statics.addListOfUsersById = function(courseId, userIdList, callbac
         if (err)
           callback(err);
         else
-          callback(undefined, course.registeredUsers);
+          callback(undefined, course);
       });
     }
   });

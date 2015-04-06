@@ -117,7 +117,7 @@ describe('Testing Courses collection:', function() {
 		   	db_api.courses.addListOfUsersById(testCourse._id, [testUser], function(err, course){
 		   		assert.equal(err, null);
 		   		assert.notEqual(course, null);
-		   		assert.equal(course[0], testUser._id);
+		   		assert.equal(course.registeredUsers[0], testUser._id);
 		   		done();
 		   	});
 		   });
