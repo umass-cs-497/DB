@@ -45,7 +45,7 @@ describe('Testing Courses collection:', function() {
 	  	db_api.courses.deleteCourseById(testCourse._id,function(err,count){
 		   	 		assert.equal(err,null);
 		   	 		assert.notEqual(count,null);
-		   	 		count._id.should.eql(testCourse._id);//1 for success
+		   	 		count._id.should.eql(testCourse._id);
 		   	 		done();
 		   	 	});
 	  });
@@ -114,10 +114,19 @@ describe('Testing Courses collection:', function() {
 	      /*
 			missing:
 			addListOfLecturesById
-			addListOfUsersById
 			getRegisteredUsersById?
 			*/
-
+		  /*
+		   *
+		   */
+		   it('adds list of users by Id: courseID', function(done){
+		   	db_api.courses.addListOfUsersById(testCourse._id, [testUser], function(err, course){
+		   		assert.equal(err, null);
+		   		assert.notEqual(course, null);
+		   		assert.equal(course[0], testUser._id);
+		   		done();
+		   	});
+		   });
 
 	      /*
 		   * Tests that the users emails returned are correct.
@@ -141,9 +150,8 @@ describe('Testing Courses collection:', function() {
 		   	db_api.courses.deleteAllEmailsById(testCourse._id, function(err,course){
 		   		assert.equal(err, null);
 		   		assert.notEqual(course, null);
-		   		course.registeredUsers.length.should.eql(0);//empty array
+		   		course.emails.length.should.eql(0);//empty array
 		   		done();
-
 		   	});
 		   });
 
