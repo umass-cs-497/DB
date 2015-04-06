@@ -59,7 +59,12 @@ lectureSchema.statics.getLectureById = function(id, callback) {
   });
 };
 
-lectureSchema.statics.setLectureVisibility = function(courseID,callback){}; 
+lectureSchema.statics.setLectureVisibility = function(courseID, visibility, callback){
+	this.update(courseID,
+		{$set:{visible: visibility}},
+		callback
+		);
+}; 
 
 lectureSchema.statics.getLectureVisibility = function(courseID, callback){
 	this.findById(courseID, function(err, lecture){
@@ -78,10 +83,3 @@ lectureSchema.statics.getLectureVisibility = function(courseID, callback){
 var Lecture = mongoose.model('Lecture', lectureSchema);
 
 exports.Lecture = Lecture;
-
-/*
-todos:
-*visible:boolean
-
-
-*/
