@@ -15,6 +15,8 @@ var lectureSchema = new Schema({
   date: {type: Date, unique: true},
   // link to lecture video
   video: String,
+  // visibility of the courses
+  visibility: Boolean,
   // links to lecture whiteboard images,
   whiteboardImages: [String],
   // links to lecture computer screen images,
@@ -60,3 +62,10 @@ lectureSchema.statics.getLectureById = function(id, callback) {
 var Lecture = mongoose.model('Lecture', lectureSchema);
 
 exports.Lecture = Lecture;
+
+/*
+todos:
+*visible:boolean
+
+
+*/
