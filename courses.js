@@ -31,11 +31,12 @@ var courseSchema = new Schema({
 
 /*
   Methods to work with Course database.
-  callback should be in the form function (err, data).
+  For getter methods, callback should be in the form function (err, data).
+  For setter methods, callback should be in the form function (err, affected_documents).
  */
 
 /*
- Method to add all eligible emails to the course.
+ Method to add a list of eligible emails to the course.
  */
 courseSchema.statics.addListOfEmailsById = function(courseId, emailList, callback) {
   this.findById(courseId, function(err, course) {
@@ -60,9 +61,9 @@ courseSchema.statics.addListOfEmailsById = function(courseId, emailList, callbac
 };
 
 /*
-  Method to add a list of registered users to roster.
+ Method to add list of lectures to course.
  */
-courseSchema.statics.addListOfUsersById = function(courseId, userList, callback) {
+courseSchema.statics.addListOfLecturesById = function(courseId, lectureIdList, callback) {
   this.findById(courseId, function(err, course) {
     if (err) {
       callback(err);
@@ -71,8 +72,33 @@ courseSchema.statics.addListOfUsersById = function(courseId, userList, callback)
       callback("courseID does not exist");
     }
     else {
-      for (var i in userList) {
-        course.registeredUsers.push(userList[i]);
+      for (var i in lectureIdList) {
+        course.lectures.push(lectureIdList[i]);
+      }
+      course.save(function(err) {
+        if (err)
+          callback(err);
+        else
+          callback(undefined, course);
+      });
+    }
+  });
+};
+
+/*
+  Method to add a list of  users to course.
+ */
+courseSchema.statics.addListOfUsersById = function(courseId, userIdList, callback) {
+  this.findById(courseId, function(err, course) {
+    if (err) {
+      callback(err);
+    }
+    else if (!course) {
+      callback("courseID does not exist");
+    }
+    else {
+      for (var i in userIdList) {
+        course.registeredUsers.push(userIdList[i]);
       }
       course.save(function(err) {
         if (err)
@@ -121,6 +147,30 @@ courseSchema.statics.deleteAllEmailsById = function(courseId, callback) {
     else {
       var length = course.emails.length;
       course.emails.splice(0, length);
+      course.save(function(err) {
+        if (err)
+          callback(err);
+        else
+          callback(undefined, course);
+      })
+    }
+  });
+};
+
+/*
+ Method to remove all registered users from the course.
+ */
+courseSchema.statics.deleteAllLecturesById = function(courseId, callback) {
+  this.findById(courseId, function(err, course) {
+    if (err) {
+      callback(err);
+    }
+    else if (!course) {
+      callback("courseID does not exist");
+    }
+    else {
+      var length = course.lectures.length;
+      course.lectures.splice(0, length);
       course.save(function(err) {
         if (err)
           callback(err);

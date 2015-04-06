@@ -27,7 +27,7 @@ var userSchema = new Schema({
 /*
   Useful methods to access the User database.
   For getter methods, callback should in the form function(error, returned_data).
-  For setter methods, callback should in the form function(error, number_of_docs_affected, raw_mongo_response).
+  For setter methods, callback should in the form function(error, affected_documents).
  */
 
 /*
@@ -229,7 +229,6 @@ userSchema.statics.setUsernameById = function(id, newUsername, callback) {
       callback
   );
 };
-
 
 var User = mongoose.model('User', userSchema);
 
