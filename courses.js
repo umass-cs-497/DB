@@ -35,9 +35,9 @@ var courseSchema = new Schema({
  */
 
 /*
-  Method to add user to course.
+ Method to add all eligible emails to the course.
  */
-courseSchema.statics.addUserById = function(courseId, userId, callback) {
+courseSchema.statics.addListOfEmailsById = function(courseId, emailList, callback) {
   this.findById(courseId, function(err, course) {
     if (err) {
       callback(err);
@@ -46,10 +46,42 @@ courseSchema.statics.addUserById = function(courseId, userId, callback) {
       callback("courseID does not exist");
     }
     else {
-      course.registeredUsers.push(userId);
-      callback(undefined, course);
+      for (var i in emailList) {
+        course.emails.push(emailList[i]);
+      }
+      course.save(function(err) {
+        if (err)
+          callback(err);
+        else
+          callback(undefined, course);
+      });
     }
-  })
+  });
+};
+
+/*
+  Method to add a list of registered users to roster.
+ */
+courseSchema.statics.addListOfUsersById = function(courseId, userList, callback) {
+  this.findById(courseId, function(err, course) {
+    if (err) {
+      callback(err);
+    }
+    else if (!course) {
+      callback("courseID does not exist");
+    }
+    else {
+      for (var i in userList) {
+        course.registeredUsers.push(userList[i]);
+      }
+      course.save(function(err) {
+        if (err)
+          callback(err);
+        else
+          callback(undefined, course);
+      });
+    }
+  });
 };
 
 /*
@@ -73,6 +105,101 @@ courseSchema.statics.createCourse = function(semester, department, courseNumber,
       }, callback);
     }
   })
+};
+
+/*
+  Method to remove all eligible emails from the course.
+ */
+courseSchema.statics.deleteAllEmailsById = function(courseId, callback) {
+  this.findById(courseId, function(err, course) {
+    if (err) {
+      callback(err);
+    }
+    else if (!course) {
+      callback("courseID does not exist");
+    }
+    else {
+      var length = course.emails.length;
+      course.emails.splice(0, length);
+      course.save(function(err) {
+        if (err)
+          callback(err);
+        else
+          callback(undefined, course);
+      })
+    }
+  });
+};
+
+/*
+ Method to remove all registered users from the course.
+ */
+courseSchema.statics.deleteAllUsersById = function(courseId, callback) {
+  this.findById(courseId, function(err, course) {
+    if (err) {
+      callback(err);
+    }
+    else if (!course) {
+      callback("courseID does not exist");
+    }
+    else {
+      var length = course.registeredUsers.length;
+      course.registeredUsers.splice(0, length);
+      course.save(function(err) {
+        if (err)
+          callback(err);
+        else
+          callback(undefined, course);
+      })
+    }
+  });
+};
+
+/*
+ * Deletes a course by id.
+ */
+courseSchema.statics.deleteCourseById = function(courseID, callback){
+  var courseModel = this;
+  courseModel.findByIdAndRemove(courseId,function(err, course){
+    if(err){
+      callback(err);
+    }
+    else{
+      callback(undefined, course);
+    }
+  });
+};
+
+/*
+ * Method that will drop the database of the courses
+ */
+courseSchema.statics.dropCoursesDatabase = function(callback) {
+  this.remove({}, function(err) {
+    if (err) {
+      console.log(err);
+    }
+    else {
+      console.log("Course database dropped");
+    }
+    callback();
+  });
+};
+
+/*
+ Method to get all eligible user emails by courseId.
+ */
+courseSchema.statics.getEligibleEmailsById = function(id, callback) {
+  this.findById(id, function (err, course) {
+    if (err) {
+      callback(err);
+    }
+    else if (!course) {
+      callback("courseID does not exist");
+    }
+    else {
+      callback(undefined, course.emails);
+    }
+  });
 };
 
 /*
@@ -106,53 +233,6 @@ courseSchema.statics.getRegisteredUsersById = function(id, callback) {
         else
           callback(undefined, course.registeredUsers);
       })
-};
-
-/*
-  Method to get all eligible user emails by courseId.
- */
-courseSchema.statics.getAllUserEmailsById = function(id, callback) {
-  this.findById(id, function (err, course) {
-    if (err) {
-      callback(err);
-    }
-    else if (!course) {
-      callback("courseID does not exist");
-    }
-    else {
-      callback(undefined, course.emails);
-    }
-  });
-};
-
-/*
- * Method that will drop the database of the courses
- */
-courseSchema.statics.dropCoursesDatabase = function(callback) {
-  this.remove({}, function(err) {
-    if (err) {
-      console.log(err);
-    }
-    else {
-      console.log("Course database dropped");
-    }
-    callback();
-  });
-};
-
-/*
- * Deletes a course by id.
- */
-courseSchema.statics.deleteCourseById = function(courseID, callback){
-  var courseDB = this;
-  courseDB.remove({"_id": courseID},function(err,count){
-    if(err){
-      callback(err);
-    }
-    else{
-      callback(undefined, count);
-    }
-  });
 };
 
 var Course = mongoose.model('Course', courseSchema);
