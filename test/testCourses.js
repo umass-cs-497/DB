@@ -111,30 +111,13 @@ describe('Testing Courses collection:', function() {
 	      });
 
 
-	      /*addListOfUsersById
-	       * Test 
-	       */
-	       // var users = [testUser];
-	       // it('User list is added: courseID', function(done){
-	       // 	db_api.courses.addListOfUsersById(testCourse._id, users, function(err, usr){
-	       // 		assert.equal(err, null);
-	       // 		assert.notEqual(usr, null);
-	       // 		console.log(usr[0]);
-	       // 		done();
-	       // 	});
-	       // });
-
 	      /*
-	       * Tests that the users returned are correct.
-	       */
-	       // it('retrieves users email by courseId: courseID',function(done){
-	       // 	 db_api.courses.getRegisteredUsersById(testCourse._id,function(err,user){
-	       // 	 	assert.equal(err,null);
-	       // 	 	assert.notEqual(user,null);
-	       // 	 	console.log(user);
-	       // 	 	done();
-	       // 	 });
-	       // });
+			missing:
+			addListOfLecturesById
+			addListOfUsersById
+			getRegisteredUsersById?
+			*/
+
 
 	      /*
 		   * Tests that the users emails returned are correct.
