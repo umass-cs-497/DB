@@ -221,7 +221,8 @@ courseSchema.statics.deleteCourseById = function(courseID, callback){
 };
 
 /*
- * Method that will drop the database of the courses
+ * Method that will drop the database of the courses.
+ * Just for testing. No need to be listed in public API.
  */
 courseSchema.statics.dropCoursesDatabase = function(callback) {
   this.remove({}, function(err) {
@@ -232,23 +233,6 @@ courseSchema.statics.dropCoursesDatabase = function(callback) {
       console.log("Course database dropped");
     }
     callback();
-  });
-};
-
-/*
- Method to get all eligible user emails by courseId.
- */
-courseSchema.statics.getEligibleEmailsById = function(id, callback) {
-  this.findById(id, function (err, course) {
-    if (err) {
-      callback(err);
-    }
-    else if (!course) {
-      callback("courseID does not exist");
-    }
-    else {
-      callback(undefined, course.emails);
-    }
   });
 };
 
@@ -265,6 +249,23 @@ courseSchema.statics.getCourseById = function(id, callback) {
     }
     else {
       callback(undefined, course);
+    }
+  });
+};
+
+/*
+ Method to get all eligible user emails by courseId.
+ */
+courseSchema.statics.getEligibleEmailsById = function(id, callback) {
+  this.findById(id, function (err, course) {
+    if (err) {
+      callback(err);
+    }
+    else if (!course) {
+      callback("courseID does not exist");
+    }
+    else {
+      callback(undefined, course.emails);
     }
   });
 };

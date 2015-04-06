@@ -32,13 +32,17 @@
 
 |	Method							|  return              |
 |--------------------------------|-----------------------------------|
-addUserById(courseId, userId, callback) | return course |
-createCourse(semester, department, courseNumber, callback) | return course |
-getCourseById(courseId, callback) | return course | 
-getRegisteredUsersById(id, callback) | return course.registeredUsers |
-getAllUserEmailsById(id, callback) | returne course.emails|
-dropCoursesDatabase(callback) | return 1 for success 0 for failure |
-deleteCourseById(courseID, callback) | return 1 for success 0 for failure |
+addListOfEmailsById(courseId, emailList, callback) | return course document with new email list |
+addListOfLecturesById(courseId, lectureIdList, callback) | return course document with new lecture list |
+addListOfUsersById(courseId, userIdList, callback) | return course document with new users list |
+createCourse(semester, department, courseNumber, callback) | return created course |
+deleteAllEmailsById(courseId, callback) | return course document with empty emails list |
+deleteAllLecturesById(courseId, callback) | return course document with empty lectures list |
+deleteAllUsersById(courseId, callback) | return course document with empty users list |
+deleteCourseById(courseID, callback) | return deleted course |
+getCourseById(courseId, callback) | return course |
+getEligibleEmailsById(id, callback) | return eligible emails to view the course material|
+getRegisteredUsersById(id, callback) | return course's registered users |
 
 
 
