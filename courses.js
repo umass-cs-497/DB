@@ -104,7 +104,7 @@ courseSchema.statics.addListOfUsersById = function(courseId, userIdList, callbac
         if (err)
           callback(err);
         else
-          callback(undefined, course);
+          callback(undefined, course.registeredUsers);
       });
     }
   });
@@ -210,7 +210,7 @@ courseSchema.statics.deleteAllUsersById = function(courseId, callback) {
  */
 courseSchema.statics.deleteCourseById = function(courseID, callback){
   var courseModel = this;
-  courseModel.findByIdAndRemove(courseId,function(err, course){
+  courseModel.findByIdAndRemove(courseID,function(err, course){
     if(err){
       callback(err);
     }

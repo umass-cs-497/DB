@@ -37,14 +37,6 @@ describe('Testing Courses collection:', function() {
 	 	});
 	 });
 
-	 before(function(done){
-	 	db_api.courses.addUserById(testCourse._id, testUser._id, function(err,course){
-	 		assert.equal(err,null);
-	 		assert.notEqual(course,null);
-	 		course._id.should.eql(testCourse._id);
-	 		done();
-	 	});
-	 });
 
 	 /*
 	  * Post-condition
@@ -53,7 +45,7 @@ describe('Testing Courses collection:', function() {
 	  	db_api.courses.deleteCourseById(testCourse._id,function(err,count){
 		   	 		assert.equal(err,null);
 		   	 		assert.notEqual(count,null);
-		   	 		count.should.eql(1);//1 for success
+		   	 		count._id.should.eql(testCourse._id);//1 for success
 		   	 		done();
 		   	 	});
 	  });
@@ -77,7 +69,7 @@ describe('Testing Courses collection:', function() {
 	   /*
 	    * Tests that getCourseById returns the right course.
 	    */
-	    it('retrieves a course by ID: ID', function(done){
+	    it('retrieves a course by ID: CourseID', function(done){
 	    	db_api.courses.getCourseById(testCourse._id, function(err, course){
 	    		assert.equal(err,null);
 	    		assert.notEqual(course, null);
@@ -89,14 +81,16 @@ describe('Testing Courses collection:', function() {
 	    });
 
 	    /*
-	     * Test that the user is added by its id and and course id.
+	     * Test that the email list is added properly to the course.
 	     */
-	     it('add user to a course by ID: courseID, userID', function(done){
-	     	db_api.courses.addUserById(testCourse._id,testUser._id,function(err,course){
+	     var Emails = ["test@test.com","test2@test.com","test3@test.com"];
+	     it('add list of emails to a course by ID: courseID, listofemails', function(done){
+	     	db_api.courses.addListOfEmailsById(testCourse._id,Emails,function(err,course){
 	     		assert.equal(err,null);
 	     		assert.notEqual(course,null);
-	     		course._id.should.eql(testCourse._id);
-	     		course.registeredUsers[0].should.eql(testUser._id);
+	     		course.emails[0].should.eql("test@test.com");
+	     		course.emails[1].should.eql("test2@test.com");
+	     		course.emails[2].should.eql("test3@test.com");
 	     		done();
 	     	});
 	     });
@@ -116,29 +110,84 @@ describe('Testing Courses collection:', function() {
 	      	});
 	      });
 
+
+	      /*addListOfUsersById
+	       * Test 
+	       */
+	       // var users = [testUser];
+	       // it('User list is added: courseID', function(done){
+	       // 	db_api.courses.addListOfUsersById(testCourse._id, users, function(err, usr){
+	       // 		assert.equal(err, null);
+	       // 		assert.notEqual(usr, null);
+	       // 		console.log(usr[0]);
+	       // 		done();
+	       // 	});
+	       // });
+
 	      /*
 	       * Tests that the users returned are correct.
 	       */
-	       it('retrieves users email by courseId: courseID',function(done){
-	       	 db_api.courses.getRegisteredUsersById(testCourse._id,function(err,user){
-	       	 	assert.equal(err,null);
-	       	 	assert.notEqual(user,null);
-	       	 	console.log(user);
-	       	 	done();
-	       	 });
-	       });
+	       // it('retrieves users email by courseId: courseID',function(done){
+	       // 	 db_api.courses.getRegisteredUsersById(testCourse._id,function(err,user){
+	       // 	 	assert.equal(err,null);
+	       // 	 	assert.notEqual(user,null);
+	       // 	 	console.log(user);
+	       // 	 	done();
+	       // 	 });
+	       // });
 
 	      /*
 		   * Tests that the users emails returned are correct.
 		   */
-		   it('retrieves user email by courseID: courseID',function(done){
-		   	db_api.courses.getAllUserEmailsById(testCourse._id,function(err,user){
-		   		assert.equal(err,null);
-		   		assert.notEqual(user,null);
-		   		console.log("esto");
+		   it('retrieves user emails by courseID: courseID',function(done){
+		   	db_api.courses.getEligibleEmailsById(testCourse._id,function(err,user){
+		   		assert.equal(err, null);
+		   		assert.notEqual(user, null);
+		   		user[0].should.eql("test@test.com");
+		   		user[1].should.eql("test2@test.com");
+		   		user[2].should.eql("test3@test.com");
 		   		done();
 		   	});
 		   });
+
+		   /*
+		    * Tests that all the emails are deleted
+		    */
+
+		   it('deletes all emails of a course: courseID', function(done){
+		   	db_api.courses.deleteAllEmailsById(testCourse._id, function(err,course){
+		   		assert.equal(err, null);
+		   		assert.notEqual(course, null);
+		   		course.registeredUsers.length.should.eql(0);//empty array
+		   		done();
+
+		   	});
+		   });
+
+			
+			/*
+			 * Tests that all the lectures are deleted properly.
+			 */
+			 it('deletes all lectures by id: courseID', function(done){
+			 	db_api.courses.deleteAllLecturesById(testCourse._id, function(err, course){
+			 		assert.equal(err, null);
+			 		assert.notEqual(course, null);
+			 		course.lectures.length.should.eql(0);
+			 		done();
+			 	});
+			 });
+
+			 /*
+			  * Test that all the users of a course a deleted properly.
+			  */
+			 it('deletes all the users by id: courseID', function(done){
+			 	db_api.courses.deleteAllUsersById(testCourse._id, function(err, course){
+			 		assert.equal(err, null);
+			 		assert.notEqual(course, null);
+			 		course.registeredUsers.length.should.eql(0);
+			 		done();
+			 	});
+			 });
 
 		   	/*
 		   	 * Test that deleteCourseById deletes the course properly.
@@ -147,7 +196,7 @@ describe('Testing Courses collection:', function() {
 		   	 	db_api.courses.deleteCourseById(newCourse._id,function(err,count){
 		   	 		assert.equal(err,null);
 		   	 		assert.notEqual(count,null);
-		   	 		count.should.eql(1);//1 for success
+		   	 		count._id.should.eql(newCourse._id);
 		   	 		done();
 		   	 	});
 		   	 });
