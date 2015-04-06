@@ -59,13 +59,18 @@ lectureSchema.statics.getLectureById = function(id, callback) {
   });
 };
 
+/*
+ * setLEctureVisibility: sets the visibility of a lecture.
+ */
 lectureSchema.statics.setLectureVisibility = function(courseID, visibility, callback){
 	this.update(courseID,
 		{$set:{visible: visibility}},
 		callback
 		);
 }; 
-
+/*
+ * getLEctureVisibility: gets the visibility of a lecture
+ */
 lectureSchema.statics.getLectureVisibility = function(courseID, callback){
 	this.findById(courseID, function(err, lecture){
 		if(err){
