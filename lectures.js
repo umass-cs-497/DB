@@ -16,7 +16,7 @@ var lectureSchema = new Schema({
   // link to lecture video
   video: String,
   // visibility of the courses
-  visible: boolean,
+  visible: Boolean,
   // links to lecture whiteboard images,
   whiteboardImages: [String],
   // links to lecture computer screen images,
