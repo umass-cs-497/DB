@@ -29,8 +29,8 @@
 ## Courses API
 ---
 
-|	Method							|  return              |
-|--------------------------------|-----------------------------------|
+|	Method										|  return              |
+|------------------------------------------------|-----------------------------------|
 addListOfEmailsById(courseId, emailList, callback) | return course document with new email list |
 addListOfLecturesById(courseId, lectureIdList, callback) | return course document with new lecture list |
 addListOfUsersById(courseId, userIdList, callback) | return course document with new users list |
@@ -42,15 +42,10 @@ deleteCourseById(courseID, callback) | return deleted course |
 getCourseById(courseId, callback) | return course |
 getEligibleEmailsById(id, callback) | return eligible emails to view the course material|
 getRegisteredUsersById(id, callback) | return course's registered users |
-
+dropCoursesDatabase(callback)| return 1 if the db has been droped successfully|
 
 
  
-
-
-
-
-
 
 
 
