@@ -16,7 +16,7 @@ var lectureSchema = new Schema({
   // link to lecture video
   video: String,
   // visibility of the courses
-  visibility: Boolean,
+  visible: boolean,
   // links to lecture whiteboard images,
   whiteboardImages: [String],
   // links to lecture computer screen images,
@@ -57,6 +57,22 @@ lectureSchema.statics.getLectureById = function(id, callback) {
       callback(undefined, lecture);
     }
   });
+};
+
+lectureSchema.statics.setLectureVisibility = function(courseID,callback){}; 
+
+lectureSchema.statics.getLectureVisibility = function(courseID, callback){
+	this.findById(courseID, function(err, lecture){
+		if(err){
+			callback(err);
+		}
+		else if(!lecture){
+			callback("Lecture not found");
+		}
+		else{
+			callback(undefined,lecture.visible);
+		}
+	});
 };
 
 var Lecture = mongoose.model('Lecture', lectureSchema);
