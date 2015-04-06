@@ -109,15 +109,9 @@ describe('Testing Courses collection:', function() {
 	      		done();
 	      	});
 	      });
-
-
-	      /*
-			missing:
-			addListOfLecturesById
-			getRegisteredUsersById?
-			*/
+	
 		  /*
-		   *
+		   * Test that the the functions adds a list of users properly.
 		   */
 		   it('adds list of users by Id: courseID', function(done){
 		   	db_api.courses.addListOfUsersById(testCourse._id, [testUser], function(err, course){
@@ -127,6 +121,25 @@ describe('Testing Courses collection:', function() {
 		   		done();
 		   	});
 		   });
+
+		  /*
+		   * Test that the function gets user properly.
+		   */
+		   it('gets registered users by course id: courseID', function(done){
+		   	db_api.courses.getRegisteredUsersById(testCourse._id, function(err, course){
+		   		assert.equal(err, null);
+		   		assert.notEqual(course, null);
+		   		course[0]._id.should.eql(testUser._id);
+		   		done();
+		   	});
+		   });
+
+		   //addListOfLecturesById
+		   // it('adds list of lectures by id:', function(done){
+		   // 	db_api.courses.addListOfLecturesById(testCourse._id, [testCourse], function(err, course){
+
+		   // 	});
+		   // });
 
 	      /*
 		   * Tests that the users emails returned are correct.
